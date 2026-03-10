@@ -3,14 +3,12 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "tinacms dev -c \"astro dev\"",
-    "build": "tinacms build --skip-cloud-checks && astro build",
+    "dev": "astro dev",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "@tinacms/cli": "^2.1.9",
-    "astro": "^5.17.1",
-    "tinacms": "^3.6.1"
+    "astro": "^5.17.1"
   }
 }
