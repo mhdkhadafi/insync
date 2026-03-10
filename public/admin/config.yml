@@ -1,0 +1,40 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: public/assets
+public_folder: /assets
+
+collections:
+  - name: blog
+    label: Blog Posts
+    folder: src/content/blog
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Date, name: date, widget: datetime, format: YYYY-MM-DD }
+      - { label: Author, name: author, widget: string, default: Qionglu Lei }
+      - { label: Excerpt, name: excerpt, widget: text, required: false }
+      - { label: Categories, name: categories, widget: list, required: false }
+      - { label: Cover Image, name: image, widget: image, required: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: events
+    label: Events
+    folder: src/content/events
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Start Date & Time, name: date, widget: datetime }
+      - { label: End Date & Time, name: endDate, widget: datetime, required: false }
+      - { label: Location, name: location, widget: string, required: false }
+      - label: Category
+        name: category
+        widget: select
+        options: [Workshop, Forum, Talk, Other]
+      - { label: Event Image, name: image, widget: image, required: false }
+      - { label: Description, name: body, widget: markdown }
