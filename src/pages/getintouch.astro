@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xreypzoq';
+---
+
+<BaseLayout title="Get In Touch" description="Reach out to IN SYNC — With Creative Minds in Diaspora">
+  <div class="container">
+    <section class="contact">
+      <h1 class="contact__title">Get In Touch</h1>
+      <p class="contact__tagline">With Creative Minds in Diaspora</p>
+
+      <form
+        action={FORMSPREE_ENDPOINT}
+        method="POST"
+        class="contact__form"
+      >
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required placeholder="Your name" />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required placeholder="your@email.com" />
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" required rows="6" placeholder="Say hello..."></textarea>
+        </div>
+        <button type="submit" class="contact__submit">Send Message</button>
+      </form>
+
+      <div class="contact__bio">
+        <p>You can also reach Qionglu directly by email. She invites submissions for the site's featured content.</p>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .contact { padding: 80px 0; max-width: 560px; }
+  .contact__title { font-family: var(--font-heading); font-size: var(--font-size-xxl); margin-bottom: 8px; }
+  .contact__tagline { color: var(--color-text-light); margin-bottom: 48px; }
+  .contact__form { display: flex; flex-direction: column; gap: 24px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group label { font-size: var(--font-size-sm); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+  .form-group input,
+  .form-group textarea {
+    border: 1px solid var(--color-border);
+    padding: 12px 16px;
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    background: var(--color-bg);
+    width: 100%;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus { outline: none; border-color: var(--color-text); }
+  .contact__submit {
+    background: var(--color-text);
+    color: var(--color-bg);
+    border: none;
+    padding: 14px 32px;
+    font-family: var(--font-body);
+    font-size: var(--font-size-sm);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: opacity 0.2s;
+  }
+  .contact__submit:hover { opacity: 0.75; }
+  .contact__bio { margin-top: 48px; padding-top: 48px; border-top: 1px solid var(--color-border); color: var(--color-text-light); line-height: var(--line-height-body); }
+</style>

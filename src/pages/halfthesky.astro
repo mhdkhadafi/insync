@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const episodes = [
+  {
+    number: 4,
+    title: 'IMBA Interactive — Game Sound Design',
+    description: 'Co-founders of IMBA Interactive discuss game sound design.',
+    youtubeId: '2LDYn8IvCz4',
+  },
+  {
+    number: 3,
+    title: 'Sharon Kho — From Fashion to Game Composer',
+    description: "Game composer Sharon Kho's transition from fashion design.",
+    youtubeId: '7zqTXUTGVK8',
+  },
+  {
+    number: 2,
+    title: 'Vivi Hu — Jazz Singer in New York',
+    description: "Jazz singer Vivi Hu's journey establishing herself in New York.",
+    youtubeId: 'szNgzAaD4BU',
+  },
+  {
+    number: 1,
+    title: 'Junwei Lin — Designer Across Cultures',
+    description: "Designer Junwei Lin's experiences across multiple countries.",
+    youtubeId: 'OfbO5o18u7k',
+  },
+];
+---
+
+<BaseLayout title="Half The Sky" description="Half The Sky — A video interview series featuring Asian women with unconventional career paths.">
+  <div class="container">
+    <section class="hts-hero">
+      <h1 class="hts-hero__title">Half The Sky</h1>
+      <p class="hts-hero__intro">Women hold up half the sky! Documenting stories of Asian women who pursued non-traditional careers.</p>
+    </section>
+
+    <section class="episodes">
+      {episodes.map(ep => (
+        <article class="episode">
+          <div class="episode__number">Episode {ep.number}</div>
+          <h2 class="episode__title">{ep.title}</h2>
+          <p class="episode__description">{ep.description}</p>
+          {ep.youtubeId ? (
+            <div class="episode__video">
+              <iframe
+                src={`https://www.youtube.com/embed/${ep.youtubeId}`}
+                title={ep.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+          ) : (
+            <p class="episode__video-placeholder">Video coming soon</p>
+          )}
+        </article>
+      ))}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .hts-hero { padding: 80px 0 60px; }
+  .hts-hero__title { font-family: var(--font-heading); font-size: var(--font-size-xxl); margin-bottom: 16px; }
+  .hts-hero__intro { font-size: var(--font-size-lg); color: var(--color-text-light); max-width: 600px; line-height: var(--line-height-body); }
+
+  .episodes { display: flex; flex-direction: column; gap: 64px; padding-bottom: 80px; }
+  .episode__number { font-size: var(--font-size-sm); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-light); margin-bottom: 8px; }
+  .episode__title { font-family: var(--font-heading); font-size: var(--font-size-xl); margin-bottom: 12px; }
+  .episode__description { color: var(--color-text-light); margin-bottom: 20px; }
+  .episode__video { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 720px; }
+  .episode__video iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+  .episode__video-placeholder { color: var(--color-text-light); font-style: italic; }
+</style>
