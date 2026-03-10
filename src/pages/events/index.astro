@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EventCard from '../../components/EventCard.astro';
+import { getCollection } from 'astro:content';
+
+const allEvents = await getCollection('events');
+const sortedEvents = allEvents.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title="Events" description="IN SYNC Events — Workshops, forums, and gatherings for creative minds in diaspora">
+  <div class="container">
+    <section class="events-header">
+      <h1 class="events-header__title">Events</h1>
+    </section>
+    <div class="events-list">
+      {sortedEvents.map(event => (
+        <EventCard
+          title={event.data.title}
+          date={event.data.date}
+          endDate={event.data.endDate}
+          location={event.data.location}
+          category={event.data.category}
+          slug={event.slug}
+          image={event.data.image}
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .events-header { padding: 80px 0 40px; }
+  .events-header__title { font-family: var(--font-heading); font-size: var(--font-size-xxl); }
+  .events-list { padding-bottom: 80px; }
+</style>

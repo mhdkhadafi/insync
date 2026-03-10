@@ -1,0 +1,41 @@
+---
+interface Props {
+  title: string;
+  date: Date;
+  endDate?: Date;
+  location?: string;
+  category: string;
+  slug: string;
+  image?: string;
+}
+const { title, date, endDate, location, category, slug, image } = Astro.props;
+
+const dateStr = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+const startTime = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+const endTime = endDate?.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+---
+
+<article class="event-card">
+  {image && <img src={image} alt={title} class="event-card__image" />}
+  <div class="event-card__body">
+    <span class="event-card__category">{category}</span>
+    <h2 class="event-card__title"><a href={`/events/${slug}`}>{title}</a></h2>
+    <p class="event-card__date">{dateStr}</p>
+    <p class="event-card__time">{startTime}{endTime ? ` – ${endTime}` : ''}</p>
+    {location && <p class="event-card__location">{location}</p>}
+    <a href={`/events/${slug}`} class="event-card__link">View Event →</a>
+  </div>
+</article>
+
+<style>
+  .event-card { display: flex; flex-direction: column; gap: 12px; padding: 32px 0; border-bottom: 1px solid var(--color-border); }
+  .event-card__image { width: 100%; aspect-ratio: 3/2; object-fit: cover; max-width: 300px; }
+  .event-card__category { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-light); }
+  .event-card__title { font-family: var(--font-heading); font-size: var(--font-size-xl); line-height: var(--line-height-heading); }
+  .event-card__title a:hover { text-decoration: underline; }
+  .event-card__date,
+  .event-card__time,
+  .event-card__location { font-size: var(--font-size-sm); color: var(--color-text-light); }
+  .event-card__link { font-size: var(--font-size-sm); letter-spacing: 0.05em; margin-top: 4px; }
+  .event-card__link:hover { text-decoration: underline; }
+</style>

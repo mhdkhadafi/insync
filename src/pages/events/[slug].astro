@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  return events.map(event => ({ params: { slug: event.slug }, props: { event } }));
+}
+
+const { event } = Astro.props;
+const { Content } = await event.render();
+
+const dateStr = event.data.date.toLocaleDateString('en-US', {
+  weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+});
+const startTime = event.data.date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+const endTime = event.data.endDate?.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+function toICSDate(d: Date): string {
+  return d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+}
+const icsContent = [
+  'BEGIN:VCALENDAR',
+  'VERSION:2.0',
+  'BEGIN:VEVENT',
+  `DTSTART:${toICSDate(event.data.date)}`,
+  event.data.endDate ? `DTEND:${toICSDate(event.data.endDate)}` : '',
+  `SUMMARY:${event.data.title}`,
+  event.data.location ? `LOCATION:${event.data.location}` : '',
+  'END:VEVENT',
+  'END:VCALENDAR',
+].filter(Boolean).join('\r\n');
+
+const icsDataUrl = `data:text/calendar;charset=utf-8,${encodeURIComponent(icsContent)}`;
+
+const googleCalUrl = new URL('https://www.google.com/calendar/render');
+googleCalUrl.searchParams.set('action', 'TEMPLATE');
+googleCalUrl.searchParams.set('text', event.data.title);
+googleCalUrl.searchParams.set('dates', `${toICSDate(event.data.date)}/${toICSDate(event.data.endDate ?? event.data.date)}`);
+if (event.data.location) googleCalUrl.searchParams.set('location', event.data.location);
+---
+
+<BaseLayout title={event.data.title}>
+  <div class="container">
+    <article class="event-detail">
+      {event.data.image && <img src={event.data.image} alt={event.data.title} class="event-detail__image" />}
+      <header class="event-detail__header">
+        <span class="event-detail__category">{event.data.category}</span>
+        <h1 class="event-detail__title">{event.data.title}</h1>
+        <p class="event-detail__date">{dateStr}</p>
+        <p class="event-detail__time">{startTime}{endTime ? ` – ${endTime}` : ''}</p>
+        {event.data.location && <p class="event-detail__location">{event.data.location}</p>}
+        <div class="event-detail__cal-links">
+          <a href={googleCalUrl.toString()} target="_blank" rel="noopener noreferrer">Add to Google Calendar</a>
+          <a href={icsDataUrl} download={`${event.slug}.ics`}>Download ICS</a>
+        </div>
+      </header>
+      <div class="event-detail__content">
+        <Content />
+      </div>
+      <a href="/events" class="event-detail__back">← Back to Events</a>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .event-detail { max-width: 720px; padding: 80px 0; }
+  .event-detail__image { width: 100%; aspect-ratio: 3/2; object-fit: cover; margin-bottom: 32px; }
+  .event-detail__category { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-light); }
+  .event-detail__title { font-family: var(--font-heading); font-size: var(--font-size-xxl); line-height: var(--line-height-heading); margin: 12px 0 20px; }
+  .event-detail__date,
+  .event-detail__time,
+  .event-detail__location { font-size: var(--font-size-sm); color: var(--color-text-light); margin-bottom: 4px; }
+  .event-detail__cal-links { display: flex; gap: 16px; margin-top: 16px; margin-bottom: 40px; }
+  .event-detail__cal-links a { font-size: var(--font-size-sm); text-decoration: underline; }
+  .event-detail__content { line-height: var(--line-height-body); }
+  .event-detail__content p { margin-bottom: 20px; }
+  .event-detail__back { display: inline-block; margin-top: 48px; font-size: var(--font-size-sm); }
+  .event-detail__back:hover { text-decoration: underline; }
+</style>
