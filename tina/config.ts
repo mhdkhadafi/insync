@@ -24,7 +24,7 @@ export default defineConfig({
         fields: [
           { name: 'title', type: 'string', label: 'Title', required: true },
           { name: 'date', type: 'datetime', label: 'Date', required: true },
-          { name: 'author', type: 'string', label: 'Author' },
+          { name: 'author', type: 'string', label: 'Author', ui: { defaultValue: 'Qionglu Lei' } },
           { name: 'excerpt', type: 'string', label: 'Excerpt', ui: { component: 'textarea' } },
           { name: 'categories', type: 'string', label: 'Categories', list: true },
           { name: 'image', type: 'image', label: 'Cover Image' },
