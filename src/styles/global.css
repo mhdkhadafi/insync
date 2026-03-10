@@ -1,5 +1,60 @@
-/* Google Fonts — Cabin (body & headings) + Playfair Display (blockquotes) */
-@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+/* Proxima Nova — local font files */
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/Proxima Nova Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/Proxima Nova Light Italic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/Proxima Nova Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/Proxima Nova Regular Italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/Proxima Nova Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/Proxima Nova Semibold Italic.otf') format('opentype');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/Proxima Nova Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/Proxima Nova Bold Italic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
 
 :root {
   --color-text: #222222;
@@ -9,9 +64,9 @@
   --color-border: #e8e8e8;
   --color-accent: #222222;
 
-  --font-heading: 'Cabin', Helvetica, Arial, sans-serif;
-  --font-body: 'Cabin', Helvetica, Arial, sans-serif;
-  --font-quote: 'Playfair Display', Georgia, serif;
+  --font-heading: 'Proxima Nova', Helvetica, Arial, sans-serif;
+  --font-body: 'Proxima Nova', Helvetica, Arial, sans-serif;
+  --font-quote: 'Proxima Nova', Georgia, serif;
   --font-size-base: 16px;
   --font-size-sm: 14px;
   --font-size-lg: 20px;

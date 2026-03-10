@@ -3,11 +3,13 @@ title: "Tonight, I Came Out To My (Asian) Parents"
 date: 2019-06-13
 author: Qionglu Lei
 excerpt: "Filmmaker Junting Zhou shares his personal account of coming out to his parents in Guangzhou, China — the courage required, the unexpected responses, and the complex mix of relief and guilt that follows."
-categories: ["Identity", "Culture", "Featured"]
+categories: ["Featured", "Collaborators"]
 image: "/assets/came-out-to-parents-cover.jpg"
 ---
 
 *By Junting Zhou, translated by Qionglu*
+
+![Tonight, I came out to my parents](/assets/blog-came-out-1.webp)
 
 The freezing cold was tamed today, it was getting warmer because the sun risen. It wasn't that chilled at night. Tonight I dine at home. Mom made taro with preserved pork topping on the rice, a homey Cantonese dish. I chatted with my parents during the dinner. Topics involved getting a girlfriend, when to have kids, my career goal at this point, things like that. All of us were a bit thrilled. I went to the kitchen to get another bowl of rice, and the idea came to me: it is a lovely night, it is the time.
 

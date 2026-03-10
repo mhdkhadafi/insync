@@ -3,7 +3,7 @@ title: "Why I Created IN SYNC"
 date: 2018-10-06
 author: Qionglu Lei
 excerpt: "Having worked in communications for over five years, I moved to New York from Shanghai and experienced miscommunication of all kinds. IN SYNC is my answer: a community of genuine and open-minded people building sustainable conversations across cultural divides."
-categories: ["Identity", "Immigration", "Culture", "Professional Development", "Featured"]
+categories: ["Featured"]
 image: "/assets/why-i-created-in-sync-cover.jpg"
 ---
 
@@ -34,5 +34,7 @@ I was intrigued by the fact that this romcom is politically incorrect in many la
 As IN SYNC series about to kick off, I come across the decision whether to make it exclusive to a certain group, for example, women or Asians. It would be much easier to tell who IN SYNC serves, but it would risk repeating internal conversations that have little impact on a large scale. A language that one only speaks with families doesn't obtain political power due to its lack of professional vocabulary, therefore, the heritage it carries would remain as a subculture.
 
 Rather than asking how you identify yourself, I'd like to ask you what value you stand for. If you see what I see, if you believe that aside from two attitudes — complete ignorance vs. devoting your life into fighting — there is a third option that we can establish our unique communication styles to empower ourselves in the professional world, please join me in articulating tactics, tools, and relatable takeaways to equip ourselves with skills and confidence to express, to empathize, to build trust with whoever we want to work and live with.
+
+![Qionglu](/assets/blog-why-i-created-1.webp)
 
 IN SYNC is a community of genuine and open-minded people.

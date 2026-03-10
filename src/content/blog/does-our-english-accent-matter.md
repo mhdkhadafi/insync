@@ -3,13 +3,15 @@ title: "Does Our English Accent Matter? With Jilly Traganou. Part I"
 date: 2019-09-20
 author: Qionglu Lei
 excerpt: "An immigrant explores whether English accents impact career and social experiences through a conversation with architect Jilly Traganou, drawing parallels to Chimamanda Ngozi Adichie's observations about language and belonging in America."
-categories: ["Identity", "Immigration", "Culture"]
+categories: ["Interviews"]
 image: "/assets/does-our-english-accent-matter-cover.jpg"
 ---
 
 As someone from another country, does an English accent affect one's professional trajectory and relationships? I sat down with Jilly Traganou, an architect and professor at Parsons School of Design, to discuss our experiences as immigrants in New York. Traganou was born in Greece and studied in Japan during multiple periods before relocating to the United States. She has a college-age daughter who speaks three languages.
 
 The conversation was inspired by discovering our mutual appreciation for novelist Chimamanda Ngozi Adichie, whose work explores identity and cultural stereotypes through African female characters. Both of us admire *Americanah*, a novel about a Nigerian woman navigating identity complexities in America while remaining authentic to herself.
+
+![Jilly Traganou](/assets/blog-english-accent-1.webp)
 
 ## Do our accents of English matter?
 
@@ -22,6 +24,8 @@ The conversation was inspired by discovering our mutual appreciation for novelis
 **J:** I connected with the narrative arc of initial arrival. The language usage differs dramatically from how English is taught internationally. Adichie notes taboos around certain words like "fat" or avoiding "I don't know" in favor of "I'm not sure." I noticed Americans reluctant to say "no" directly. In Greek culture, disagreement and strong opinions are expected, whereas here there's caution about negativity.
 
 **Q:** My native language emphasizes politeness more than English, so I've pushed myself toward directness. Mandarin functions contextually — words act as containers of meaning that only cohere together, unlike literal English translation.
+
+![Books](/assets/blog-english-accent-2.webp)
 
 **J:** Japanese operates similarly. Subjects remain implied through context; speakers omit "I," "you," or "she." It's an indirect language with refusal expressed implicitly and abundant silence. There's a book comparing Japanese social politeness with American directness called *Polite Lies: On Being a Woman Caught Between Cultures*.
 

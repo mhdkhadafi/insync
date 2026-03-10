@@ -3,7 +3,7 @@ title: "Belonging Nowhere Makes Me Who I Am"
 date: 2019-08-22
 author: Qionglu Lei
 excerpt: "Fashion designer Junwei Lin's brand tagline 'belongs to nowhere' resonates deeply with the immigrant experience of having no single hometown — a conversation recorded in Central Park about identity, creativity, and finding yourself across cultures."
-categories: ["Identity", "Immigration", "Culture", "Video", "Featured"]
+categories: ["Videos", "Interviews", "Featured"]
 image: "/assets/belonging-nowhere-cover.jpg"
 ---
 
@@ -15,6 +15,10 @@ One day I was thinking of her and went to check her website. There was one line 
 
 I was lucky. Not long after that, Junwei came to New York for vacation. And we recorded this chat in Central Park.
 
+![Belonging Nowhere](/assets/blog-belonging-nowhere-1.webp)
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/OfbO5o18u7k" title="Belonging Nowhere Makes Me Who I Am" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 It was such a pleasure chatting with Junwei. She has this natural calmness in her, maybe because at such a young age she's been living in a few countries and made many big decisions for herself. On top of her experience, now she's leading her own business, and I see a mature character in her. She has transformed life experience, where changes happen all the time, culturally and socially, into her motivation of design.
 
 Each year people in Asia flocks to the West for work and study. And we seemed to be so ready without any clue that how much challenges we are going to face in terms of identities — who are we, and who do we want to be?
@@ -22,6 +26,8 @@ Each year people in Asia flocks to the West for work and study. And we seemed to
 "Be positive and be open", "get your English perfect", or "try getting along with the locals", these general suggestions don't work all the time. What we need is being able to establish ourselves in the new environment, and I hope, this is something we can learn as we go.
 
 Some of us have shown it. Let's start with Junwei's story.
+
+![Junwei Lin](/assets/blog-belonging-nowhere-2.webp)
 
 ---
 

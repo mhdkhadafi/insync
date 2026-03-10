@@ -3,7 +3,7 @@ title: "Manage Expectations So You Can Do More - You Have Nothing To Lose"
 date: 2019-11-05
 author: Qionglu Lei
 excerpt: "International students pursuing arts in New York face unique challenges. Jazz singer Vivi Hu's approach: set manageable expectations, celebrate incremental progress, and keep moving forward."
-categories: ["Identity", "Immigration", "Culture", "Professional Development"]
+categories: ["Videos", "Interviews"]
 image: "/assets/nothing-to-lose-cover.jpg"
 ---
 
@@ -30,3 +30,9 @@ I asked her how did she position herself in a completely new world when she firs
 This is her tip. Using this tip, she finished her school and founded her own band. She acts as the vocal as well as the manager of the band.
 
 Wanna know more about her? Me too! Let's start the chat.
+
+![Nothing to lose thumbnail](/assets/blog-nothing-to-lose-1.webp)
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/szNgzAaD4BU" title="You Have Nothing To Lose" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+![Vivi Hu](/assets/blog-nothing-to-lose-2.webp)

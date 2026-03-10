@@ -3,7 +3,7 @@ title: "The Falling of Elizabeth Holmes and What We Learn from It"
 date: 2019-06-24
 author: Qionglu Lei
 excerpt: "Elizabeth Holmes founded Theranos with a vision to revolutionize blood testing, but without grounded self-understanding she overpromised — her story offers a lesson in self-knowledge and finding our core values."
-categories: ["Professional Development", "Career", "Culture"]
+categories: ["Opinions", "Collaborators"]
 image: "/assets/elizabeth-holmes-cover.jpg"
 ---
 
@@ -18,6 +18,8 @@ In the documentary, she always gave people a very assured look, be at the kick-o
 When one has such a strong conviction of what she does, she will do whatever it takes almost religiously.
 
 I doubt if Holmes considered herself "lying" to anyone. From her perspective, this is her effort to change the world — if her theory works, instead of taking five tubes of blood to get the data, a pinprick of a finger would do. How blessing would this be? Not to mention this "technology" was much cheaper than the similar service offered by the other labs. It would empower people of poverty who can't afford any insurance.
+
+![The Inventor documentary](/assets/blog-elizabeth-holmes-1.webp)
 
 Yet Holmes is far away from the path. Her vision and dream was real, she might even have felt genuine. Without realist self-understanding, she overpromised. Her overestimation led to the failing of Theranos and whatever she represented.
 

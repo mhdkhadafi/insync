@@ -10,11 +10,14 @@ const navLinks = [
 const currentPath = Astro.url.pathname;
 ---
 
-<nav class="nav">
-  <div class="nav__inner container">
-    <a href="/" class="nav__logo">
-      <img src="/assets/logo.png" alt="IN SYNC" height="40" />
+<header class="header">
+  <div class="header__brand">
+    <a href="/">
+      <img src="/assets/logo.png" alt="IN SYNC" class="header__logo" />
     </a>
+    <p class="header__tagline">With Creative Minds in Diaspora</p>
+  </div>
+  <nav class="nav">
     <ul class="nav__links">
       {navLinks.map(link => (
         <li>
@@ -27,42 +30,52 @@ const currentPath = Astro.url.pathname;
         </li>
       ))}
     </ul>
-  </div>
-</nav>
+  </nav>
+</header>
 
 <style>
-  .nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--color-bg);
-    border-bottom: 1px solid var(--color-border);
-    height: var(--nav-height);
-  }
-  .nav__inner {
+  .header {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    height: 100%;
+    padding: 60px 20px 0;
   }
-  .nav__logo img { height: 40px; width: auto; }
+  .header__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  .header__logo {
+    height: 80px;
+    width: auto;
+    margin-bottom: 12px;
+  }
+  .header__tagline {
+    font-size: var(--font-size-sm);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-text-light);
+  }
+  .nav {
+    margin-bottom: 20px;
+  }
   .nav__links {
     display: flex;
     list-style: none;
     gap: 32px;
   }
   .nav__link {
-    font-size: var(--font-size-sm);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    font-size: var(--font-size-base);
     color: var(--color-text);
     transition: opacity 0.2s;
   }
   .nav__link:hover { opacity: 0.6; text-decoration: none; }
-  .nav__link--active { border-bottom: 1px solid var(--color-text); }
+  .nav__link--active { text-decoration: underline; }
 
   @media (max-width: 768px) {
-    .nav__links { gap: 16px; }
-    .nav__link { font-size: 11px; }
+    .header__logo { height: 50px; }
+    .nav__links { gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .nav__link { font-size: var(--font-size-sm); }
   }
 </style>

@@ -8,7 +8,6 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xreypzoq';
   <div class="container">
     <section class="contact">
       <h1 class="contact__title">Get In Touch</h1>
-      <p class="contact__tagline">With Creative Minds in Diaspora</p>
 
       <form
         action={FORMSPREE_ENDPOINT}
@@ -16,31 +15,42 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xreypzoq';
         class="contact__form"
       >
         <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" required placeholder="Your name" />
+          <label for="first-name">First Name</label>
+          <input type="text" id="first-name" name="first-name" required />
         </div>
         <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required placeholder="your@email.com" />
+          <label for="last-name">Last Name</label>
+          <input type="text" id="last-name" name="last-name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required />
         </div>
         <div class="form-group">
           <label for="message">Message</label>
-          <textarea id="message" name="message" required rows="6" placeholder="Say hello..."></textarea>
+          <textarea id="message" name="message" rows="6"></textarea>
         </div>
-        <button type="submit" class="contact__submit">Send Message</button>
+        <button type="submit" class="contact__submit">Send</button>
       </form>
 
       <div class="contact__bio">
-        <p>You can also reach Qionglu directly by email. She invites submissions for the site's featured content.</p>
+        <div class="contact__bio-text">
+          <h2 class="contact__bio-title">Hi!</h2>
+          <p>Thanks for being interested in who's behind the scenes.</p>
+          <p>I'm Qionglu, I'm feeding pigeons so maybe once a while they will bring my some messages...or you can email me, like we all do in this digital world. Don't hesitate to reach out If you'd like to be featured in the untitled.</p>
+          <p>Enjoy the rest of your day</p>
+        </div>
+        <div class="contact__bio-photo">
+          <img src="/assets/qionglu-portrait.jpg" alt="Qionglu" class="contact__portrait" />
+        </div>
       </div>
     </section>
   </div>
 </BaseLayout>
 
 <style>
-  .contact { padding: 80px 0; max-width: 560px; }
-  .contact__title { font-family: var(--font-heading); font-size: var(--font-size-xxl); margin-bottom: 8px; }
-  .contact__tagline { color: var(--color-text-light); margin-bottom: 48px; }
+  .contact { padding: 80px 0; max-width: 780px; }
+  .contact__title { font-family: var(--font-heading); font-size: var(--font-size-xxl); margin-bottom: 32px; }
   .contact__form { display: flex; flex-direction: column; gap: 24px; }
   .form-group { display: flex; flex-direction: column; gap: 8px; }
   .form-group label { font-size: var(--font-size-sm); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
@@ -71,5 +81,15 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xreypzoq';
     transition: opacity 0.2s;
   }
   .contact__submit:hover { opacity: 0.75; }
-  .contact__bio { margin-top: 48px; padding-top: 48px; border-top: 1px solid var(--color-border); color: var(--color-text-light); line-height: var(--line-height-body); }
+  .contact__bio { margin-top: 48px; padding-top: 48px; border-top: 1px solid var(--color-border); line-height: var(--line-height-body); display: flex; gap: 32px; }
+  .contact__bio-text { flex: 1; }
+  .contact__bio-title { font-family: var(--font-heading); font-size: var(--font-size-xl); margin-bottom: 16px; font-style: italic; }
+  .contact__bio-text p { margin-bottom: 16px; }
+  .contact__bio-photo { flex-shrink: 0; width: 280px; }
+  .contact__portrait { width: 100%; }
+
+  @media (max-width: 768px) {
+    .contact__bio { flex-direction: column; }
+    .contact__bio-photo { width: 100%; }
+  }
 </style>

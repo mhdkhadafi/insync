@@ -6,25 +6,22 @@ import { getCollection } from 'astro:content';
 const allPosts = await getCollection('blog');
 const sortedPosts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-const allCategories = [...new Set(sortedPosts.flatMap(p => p.data.categories ?? []))].sort();
+const allCategories = ['Videos', 'Interviews', 'Featured', 'Opinions', 'Collaborators'];
 ---
 
 <BaseLayout title="Blog" description="Stories from IN SYNC — With Creative Minds in Diaspora">
   <div class="container">
     <section class="blog-header">
-      <h1 class="blog-header__title">Stories</h1>
+      <h1 class="blog-header__title">Stories In Your Own Voices</h1>
     </section>
 
-    <!-- Category filter — Phase 1: cosmetic only (links render correctly but don't filter,
-         since Astro SSG doesn't process query strings at runtime). Matches live site appearance. -->
     <nav class="category-filter" aria-label="Filter by category">
-      <a href="/blog" class="category-filter__link category-filter__link--active">All</a>
       {allCategories.map(cat => (
-        <a href={`/blog?category=${encodeURIComponent(cat)}`} class="category-filter__link">{cat}</a>
+        <a href={`/blog/category/${cat}`} class="category-filter__link">{cat}</a>
       ))}
     </nav>
 
-    <div class="blog-grid">
+    <div class="blog-list">
       {sortedPosts.map(post => (
         <BlogCard
           title={post.data.title}
@@ -33,6 +30,7 @@ const allCategories = [...new Set(sortedPosts.flatMap(p => p.data.categories ?? 
           excerpt={post.data.excerpt}
           slug={post.slug}
           image={post.data.image}
+          categories={post.data.categories}
         />
       ))}
     </div>
@@ -45,8 +43,11 @@ const allCategories = [...new Set(sortedPosts.flatMap(p => p.data.categories ?? 
 
   .category-filter { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 48px; border-bottom: 1px solid var(--color-border); padding-bottom: 16px; }
   .category-filter__link { font-size: var(--font-size-sm); letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-text-light); transition: color 0.2s; }
-  .category-filter__link:hover,
-  .category-filter__link--active { color: var(--color-text); text-decoration: none; border-bottom: 1px solid var(--color-text); }
+  .category-filter__link:hover { color: var(--color-text); text-decoration: none; border-bottom: 1px solid var(--color-text); }
 
-  .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 48px; padding-bottom: 80px; }
+  .blog-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; padding-bottom: 80px; }
+
+  @media (max-width: 768px) {
+    .blog-list { grid-template-columns: 1fr; }
+  }
 </style>

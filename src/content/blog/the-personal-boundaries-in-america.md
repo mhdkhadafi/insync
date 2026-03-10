@@ -3,11 +3,13 @@ title: "The Personal Boundaries In America. With Jilly Traganou. Part II"
 date: 2019-10-23
 author: Qionglu Lei
 excerpt: "In this continuation of an interview with Jilly Traganou, the discussion explores how cultural boundaries and personal space function differently across American society compared to other nations."
-categories: ["Identity", "Immigration", "Culture"]
+categories: ["Interviews"]
 image: "/assets/the-personal-boundaries-in-america-cover.jpg"
 ---
 
 *This is the second part of my interview with Jilly Traganou. To view her background story and the first part, check [Does Our English Accent Matter?](/blog/does-our-english-accent-matter)*
+
+![Jilly Traganou Part II](/assets/blog-personal-boundaries-1.webp)
 
 **Q:** Do you also teach your daughter about those things (cultural differences, how to behave "appropriately")? Or do you think she knows these things very well?
 
@@ -18,6 +20,8 @@ image: "/assets/the-personal-boundaries-in-america-cover.jpg"
 **J:** She constantly teaches me how not to cross the lines, all sorts of lines. Recently, for instance, we were at a restaurant with my daughter and another girl of the same age, and her parents who are from Serbia. We were having a very nice conversation. And then there was a group of young college students, maybe twenty-three, coming into this space and they were so loud. That was incredible. So immediately we were bombarded with noise. We were so upset. But these guys — it was three boys and a girl — couldn't care less about us and whether they disturbed us and everyone else in the room. So we were astonished and we, the parents, were ready to complain and express our disturbance.
 
 And as we were openly expressing our outrage our girls did this (Jilly raised her index finger, and did a "shush") as if we were not allowed to express dissatisfaction loudly in front of this party who in fact had polluted the place with their noise and arrogance. They felt that we should not be confrontational even though they were so loud. This would not have been the same, I imagine, in a different country, at least it was not the same where I grew up!
+
+![Personal boundaries](/assets/blog-personal-boundaries-2.webp)
 
 I am very perplexed by the reaction of my daughter and her friend. Because in their world you're not supposed to criticize people who are different from you, and this sets a very strict boundary.
 
@@ -58,5 +62,7 @@ I think in other countries people can be much more open and direct. Say if there
 ---
 
 ### Anecdote
+
+![Ichiran ramen](/assets/blog-personal-boundaries-3.webp)
 
 While editing this conversation, I went to Ichiran, a famous Ramen spot in Midtown designed for people to dine alone. Every guest orders and dines in an individual compartment and human interactions are limited to a minimum. Two Mandarin-speaking girls who sat next to me never stopped their passionate gossip, and they were never aware of the curated quietness and solitary of the restaurant. And, I did not say anything. I recalled my conversation with Jilly, how amusing it is that I promised I would step out and stop rude neighbors?

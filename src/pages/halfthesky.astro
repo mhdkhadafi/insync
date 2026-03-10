@@ -4,45 +4,61 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const episodes = [
   {
     number: 4,
-    title: 'IMBA Interactive — Game Sound Design',
-    description: 'Co-founders of IMBA Interactive discuss game sound design.',
+    title: 'We Founded A Company To Design Sound For Games',
+    person: 'Gwen Guo, co-founder of IMBA Interactive',
+    description: 'How two music lovers built a game audio studio in Singapore, and what they learned from surviving it.',
     youtubeId: '2LDYn8IvCz4',
+    thumbnail: '/assets/hts-ep4-thumbnail.png',
   },
   {
     number: 3,
-    title: 'Sharon Kho — From Fashion to Game Composer',
-    description: "Game composer Sharon Kho's transition from fashion design.",
+    title: 'I Became A Game Composer After Quitting Fashion Design',
+    person: 'Sharon Kho, co-founder and Lead Composer of IMBA Interactive',
+    description: "Sharon Kho leads Singapore's only dedicated game audio company.",
     youtubeId: '7zqTXUTGVK8',
+    thumbnail: '/assets/hts-ep3-thumbnail.png',
   },
   {
     number: 2,
-    title: 'Vivi Hu — Jazz Singer in New York',
-    description: "Jazz singer Vivi Hu's journey establishing herself in New York.",
+    title: "I Have Nothing To Lose Because I'm New",
+    person: 'Vivi Hu, Jazz singer and bandleader',
+    description: 'Vivi Hu moved to New York with no connections. Now she leads her own Jazz band.',
     youtubeId: 'szNgzAaD4BU',
+    thumbnail: '/assets/hts-ep2-thumbnail.png',
   },
   {
     number: 1,
-    title: 'Junwei Lin — Designer Across Cultures',
-    description: "Designer Junwei Lin's experiences across multiple countries.",
+    title: 'Belonging Nowhere Makes Me Who I AM',
+    person: 'Junwei Lin, designer',
+    description: 'Junwei studied in the UK, Australia, and the US. She transformed culture shock into design inspiration.',
     youtubeId: 'OfbO5o18u7k',
+    thumbnail: '/assets/hts-ep1-thumbnail.jpg',
   },
 ];
 ---
 
 <BaseLayout title="Half The Sky" description="Half The Sky — A video interview series featuring Asian women with unconventional career paths.">
-  <div class="container">
+  <div class="hts-wrap">
     <section class="hts-hero">
-      <h1 class="hts-hero__title">Half The Sky</h1>
-      <p class="hts-hero__intro">Women hold up half the sky! Documenting stories of Asian women who pursued non-traditional careers.</p>
+      <h1 class="hts-hero__title">"Women hold up half the sky!"</h1>
+      <p class="hts-hero__body">
+        My parents witnessed an era when Chinese people chanted these words by Mao. They told me about it. Growing up I've believed in that women are the on front line of every social function, until I'm old enough to realize that I was only exposed to certain options and paths that would lead to a "desired" life — a stable job, a resourceful lifestyle, and so on — which does not promise fulfillment or happiness.
+      </p>
+      <p class="hts-hero__body">
+        Can you become someone without ever imagining about it? Think about that classmate/neighbor/someone's child who determined to become a doctor/lawyer/engineer and actually became one. You are not like that. And that's Ok. The stories are more fun this way.
+      </p>
+      <p class="hts-hero__body">
+        I want to show you. This is a series about Asian women who took an untraditional path on their career, and what they learned from it.
+      </p>
+      <p class="hts-hero__body">Here goes the "Half of Sky" series.</p>
     </section>
 
     <section class="episodes">
       {episodes.map(ep => (
         <article class="episode">
-          <div class="episode__number">Episode {ep.number}</div>
           <h2 class="episode__title">{ep.title}</h2>
-          <p class="episode__description">{ep.description}</p>
-          {ep.youtubeId ? (
+          <img src={ep.thumbnail} alt={ep.title} class="episode__thumbnail" />
+          {ep.youtubeId && (
             <div class="episode__video">
               <iframe
                 src={`https://www.youtube.com/embed/${ep.youtubeId}`}
@@ -51,25 +67,38 @@ const episodes = [
                 allowfullscreen
               ></iframe>
             </div>
-          ) : (
-            <p class="episode__video-placeholder">Video coming soon</p>
           )}
         </article>
       ))}
+    </section>
+
+    <section class="closing">
+      <div class="closing__gifs">
+        <img src="/assets/hts-gif-imagined.gif" alt="What we imagined life would be" />
+        <img src="/assets/hts-gif-actual.gif" alt="What actually happened" />
+      </div>
+      <p class="closing__text">we REALLY DON'T KNOW what's gonna be there for us.</p>
+      <p class="closing__cta">So what not keep exploring?</p>
     </section>
   </div>
 </BaseLayout>
 
 <style>
-  .hts-hero { padding: 80px 0 60px; }
-  .hts-hero__title { font-family: var(--font-heading); font-size: var(--font-size-xxl); margin-bottom: 16px; }
-  .hts-hero__intro { font-size: var(--font-size-lg); color: var(--color-text-light); max-width: 600px; line-height: var(--line-height-body); }
+  .hts-wrap { max-width: 780px; margin: 0 auto; padding: 0 var(--gutter); }
+
+  .hts-hero { padding: 60px 0 48px; }
+  .hts-hero__title { font-family: var(--font-heading); font-size: 32px; font-weight: 700; margin-bottom: 24px; line-height: 1.3; }
+  .hts-hero__body { line-height: var(--line-height-body); margin-bottom: 20px; }
 
   .episodes { display: flex; flex-direction: column; gap: 64px; padding-bottom: 80px; }
-  .episode__number { font-size: var(--font-size-sm); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-light); margin-bottom: 8px; }
-  .episode__title { font-family: var(--font-heading); font-size: var(--font-size-xl); margin-bottom: 12px; }
-  .episode__description { color: var(--color-text-light); margin-bottom: 20px; }
-  .episode__video { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 720px; }
+  .episode__title { font-family: var(--font-heading); font-size: var(--font-size-xl); font-weight: 700; margin-bottom: 20px; }
+  .episode__thumbnail { width: 100%; margin-bottom: 20px; }
+  .episode__video { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
   .episode__video iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-  .episode__video-placeholder { color: var(--color-text-light); font-style: italic; }
+
+  .closing { padding-bottom: 80px; text-align: center; }
+  .closing__gifs { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+  .closing__gifs img { max-width: 360px; width: 100%; }
+  .closing__text { font-size: var(--font-size-lg); margin-bottom: 12px; }
+  .closing__cta { font-size: var(--font-size-lg); color: var(--color-text-light); }
 </style>

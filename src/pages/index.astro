@@ -4,9 +4,13 @@ import BlogCard from '../components/BlogCard.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('blog');
-const featuredPosts = allPosts
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 4);
+const sortedPosts = allPosts
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const allCategories = ['Videos', 'Interviews', 'Featured', 'Opinions', 'Collaborators'];
+
+const allEvents = await getCollection('events');
+const sortedEvents = allEvents.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
 <BaseLayout title="Home" description="IN SYNC — With Creative Minds in Diaspora">
@@ -14,23 +18,29 @@ const featuredPosts = allPosts
   <!-- Hero -->
   <section class="hero">
     <div class="container hero__inner">
-      <div class="hero__text">
-        <h1 class="hero__title">IN SYNC</h1>
-        <p class="hero__tagline">With Creative Minds in Diaspora</p>
+      <h1 class="hero__title">To explore the diaspora and cultural identities, and how we can live with a sense of authenticity.</h1>
+      <div class="hero__cta-wrap">
+        <p class="hero__cta-text">Check out interview series <a href="/halfthesky" class="hero__cta-link">Half Of Sky</a> on life that's NOT like this:</p>
+        <a href="/halfthesky" class="hero__cta">
+          <img src="/assets/hero.gif" alt="Check out interview series Half The Sky" class="hero__gif" />
+        </a>
       </div>
-      <a href="/halfthesky" class="hero__cta">
-        <img src="/assets/hero.gif" alt="Check out interview series Half The Sky" class="hero__gif" />
-        <span class="hero__cta-label">Check out interview series Half The Sky →</span>
-      </a>
     </div>
   </section>
 
-  <!-- Featured Stories -->
-  <section class="featured">
+  <!-- Stories -->
+  <section class="stories">
     <div class="container">
-      <h2 class="featured__heading">Stories</h2>
-      <div class="featured__grid">
-        {featuredPosts.map(post => (
+      <h2 class="stories__heading">Stories In Your Own Voices</h2>
+
+      <nav class="category-filter" aria-label="Filter by category">
+        {allCategories.map(cat => (
+          <a href={`/blog/category/${cat}`} class="category-filter__link">{cat}</a>
+        ))}
+      </nav>
+
+      <div class="stories__grid">
+        {sortedPosts.map(post => (
           <BlogCard
             title={post.data.title}
             date={post.data.date}
@@ -38,28 +48,78 @@ const featuredPosts = allPosts
             excerpt={post.data.excerpt}
             slug={post.slug}
             image={post.data.image}
+            categories={post.data.categories}
           />
         ))}
       </div>
-      <a href="/blog" class="featured__all-link">View all stories →</a>
+    </div>
+  </section>
+
+  <!-- Events -->
+  <section class="events">
+    <div class="container">
+      <h2 class="events__heading">Events</h2>
+      <div class="events__grid">
+        {sortedEvents.filter(e => e.data.image).map(event => {
+          const month = event.data.date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+          const day = event.data.date.getDate();
+          const dateStr = event.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+          return (
+            <div class="events__card">
+              <a href={`/events/${event.slug}`} class="events__image-link">
+                <img src={event.data.image} alt={event.data.title} class="events__image" />
+                <div class="events__badge">
+                  <span class="events__badge-month">{month}</span>
+                  <span class="events__badge-day">{day}</span>
+                </div>
+              </a>
+              <a href={`/events/${event.slug}`} class="events__title">{event.data.title}</a>
+              <span class="events__date">{dateStr}</span>
+            </div>
+          );
+        })}
+      </div>
     </div>
   </section>
 
 </BaseLayout>
 
 <style>
-  .hero { padding: 80px 0 60px; }
-  .hero__inner { display: flex; flex-direction: column; gap: 40px; }
-  .hero__title { font-family: var(--font-heading); font-size: var(--font-size-xxl); line-height: var(--line-height-heading); }
-  .hero__tagline { font-size: var(--font-size-lg); color: var(--color-text-light); margin-top: 8px; }
-  .hero__cta { display: inline-flex; flex-direction: column; gap: 12px; }
-  .hero__gif { max-width: 400px; }
-  .hero__cta-label { font-size: var(--font-size-sm); letter-spacing: 0.05em; }
-  .hero__cta:hover .hero__cta-label { text-decoration: underline; }
+  .hero { padding: 60px 0; }
+  .hero__inner { display: flex; flex-direction: column; gap: 48px; max-width: 800px; margin: 0 auto; padding: 0 var(--gutter); }
+  .hero__title { font-family: var(--font-heading); font-size: 36px; font-weight: 700; line-height: 1.3; }
+  .hero__cta-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .hero__cta-text { font-size: var(--font-size-lg); text-align: center; }
+  .hero__cta-link { text-decoration: underline; }
+  .hero__cta { display: inline-block; }
+  .hero__gif { max-width: 700px; width: 100%; }
 
-  .featured { padding: 60px 0; }
-  .featured__heading { font-family: var(--font-heading); font-size: var(--font-size-xl); margin-bottom: 40px; }
-  .featured__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; }
-  .featured__all-link { display: inline-block; margin-top: 32px; font-size: var(--font-size-sm); letter-spacing: 0.05em; }
-  .featured__all-link:hover { text-decoration: underline; }
+  .stories { padding: 60px 0; }
+  .stories__heading { font-family: var(--font-heading); font-size: var(--font-size-xl); margin-bottom: 24px; text-align: center; }
+  .stories__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
+
+  .category-filter { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 48px; justify-content: center; }
+  .category-filter__link { font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-text-light); transition: color 0.2s; }
+  .category-filter__link:hover { color: var(--color-text); text-decoration: underline; }
+
+  @media (max-width: 768px) {
+    .stories__grid { grid-template-columns: 1fr; }
+  }
+
+  .events { padding: 40px 0 80px; }
+  .events__heading { font-family: var(--font-heading); font-size: var(--font-size-xl); margin-bottom: 32px; text-align: center; }
+  .events__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
+  .events__card { display: flex; flex-direction: column; }
+  .events__image-link { position: relative; display: block; margin-bottom: 16px; }
+  .events__image { width: 100%; aspect-ratio: 3/2; object-fit: cover; }
+  .events__badge { position: absolute; top: 12px; right: 12px; background: var(--color-bg); padding: 6px 10px; text-align: center; line-height: 1.2; }
+  .events__badge-month { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; }
+  .events__badge-day { display: block; font-size: 20px; font-weight: 700; }
+  .events__title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .events__title:hover { text-decoration: underline; }
+  .events__date { font-size: var(--font-size-sm); color: var(--color-text-light); }
+
+  @media (max-width: 768px) {
+    .events__grid { grid-template-columns: 1fr; }
+  }
 </style>

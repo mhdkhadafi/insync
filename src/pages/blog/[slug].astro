@@ -13,6 +13,10 @@ const { Content } = await post.render();
 const formattedDate = post.data.date.toLocaleDateString('en-US', {
   year: 'numeric', month: 'long', day: 'numeric'
 });
+
+const postUrl = `https://insyncnyc.netlify.app/blog/${post.slug}`;
+const shareText = encodeURIComponent(post.data.title);
+const shareUrl = encodeURIComponent(postUrl);
 ---
 
 <BaseLayout title={post.data.title} description={post.data.excerpt}>
@@ -24,17 +28,44 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
     )}
     <div class="container post__body-wrap">
       <header class="post__header">
-        <p class="post__meta">{formattedDate} · {post.data.author}</p>
+        <p class="post__meta">
+          {post.data.categories && post.data.categories.length > 0 && (
+            <span class="post__meta-cats">
+              {post.data.categories.map((cat, i) => (
+                <><a href={`/blog/category/${cat}`} class="post__meta-cat-link">{cat}</a>{i < post.data.categories.length - 1 && ', '}</>
+              ))}
+              <span> · </span>
+            </span>
+          )}
+          {formattedDate}
+        </p>
         <h1 class="post__title">{post.data.title}</h1>
-        {post.data.categories && (
-          <div class="post__categories">
-            {post.data.categories.map(cat => <span class="post__category">{cat}</span>)}
-          </div>
-        )}
       </header>
       <div class="post__content">
         <Content />
       </div>
+
+      <div class="post__share">
+        <span class="post__share-label">Share</span>
+        <div class="post__share-links">
+          <a href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`} target="_blank" rel="noopener noreferrer" aria-label="Share on X/Twitter">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`} target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
+          </a>
+          <a href={`https://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}&title=${shareText}`} target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="post__tags">
+        {post.data.categories && post.data.categories.map(cat => (
+          <a href={`/blog/category/${cat}`} class="post__tag">{cat}</a>
+        ))}
+      </div>
+
       <a href="/blog" class="post__back">← Back to Stories</a>
     </div>
   </article>
@@ -44,14 +75,26 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
   .post__cover img { width: 100%; max-height: 500px; object-fit: cover; }
   .post__body-wrap { max-width: 720px; padding-top: 48px; padding-bottom: 80px; }
   .post__meta { font-size: var(--font-size-sm); color: var(--color-text-light); margin-bottom: 12px; }
-  .post__title { font-family: var(--font-heading); font-size: var(--font-size-xxl); line-height: var(--line-height-heading); margin-bottom: 16px; }
-  .post__categories { display: flex; gap: 8px; margin-bottom: 40px; }
-  .post__category { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--color-border); }
+  .post__meta-cat-link { text-decoration: none; }
+  .post__meta-cat-link:hover { text-decoration: underline; }
+  .post__title { font-family: var(--font-heading); font-size: var(--font-size-xxl); line-height: var(--line-height-heading); margin-bottom: 32px; }
   .post__content { line-height: var(--line-height-body); }
-  .post__content h2 { font-family: var(--font-heading); font-size: var(--font-size-xl); margin: 40px 0 16px; }
-  .post__content p { margin-bottom: 20px; }
-  .post__content a { text-decoration: underline; }
-  .post__content blockquote { border-left: 3px solid var(--color-border); padding-left: 20px; color: var(--color-text-light); font-style: italic; margin: 24px 0; }
-  .post__back { display: inline-block; margin-top: 48px; font-size: var(--font-size-sm); letter-spacing: 0.05em; }
+  .post__content :global(h2) { font-family: var(--font-heading); font-size: var(--font-size-xl); margin: 40px 0 16px; }
+  .post__content :global(p) { margin-bottom: 20px; }
+  .post__content :global(a) { text-decoration: underline; }
+  .post__content :global(img) { max-width: 100%; margin: 24px 0; }
+  .post__content :global(blockquote) { border-left: 3px solid var(--color-border); padding-left: 20px; color: var(--color-text-light); font-style: italic; margin: 24px 0; }
+
+  .post__share { display: flex; align-items: center; gap: 16px; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--color-border); }
+  .post__share-label { font-size: var(--font-size-sm); color: var(--color-text-light); text-transform: uppercase; letter-spacing: 0.05em; }
+  .post__share-links { display: flex; gap: 12px; }
+  .post__share-links a { color: var(--color-text-light); transition: color 0.2s; }
+  .post__share-links a:hover { color: var(--color-text); text-decoration: none; }
+
+  .post__tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+  .post__tag { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--color-border); text-decoration: none; }
+  .post__tag:hover { border-color: var(--color-text); text-decoration: none; }
+
+  .post__back { display: inline-block; margin-top: 32px; font-size: var(--font-size-sm); letter-spacing: 0.05em; }
   .post__back:hover { text-decoration: underline; }
 </style>

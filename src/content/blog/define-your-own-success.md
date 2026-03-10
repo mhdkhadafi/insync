@@ -3,7 +3,8 @@ title: "Define Your Own Success. With Jilly Traganou. Part III"
 date: 2019-10-31
 author: Qionglu Lei
 excerpt: "In the final installment of this interview series, Jilly Traganou explores how immigrants and diaspora members can define success on their own terms, rather than adopting external value systems or comparing themselves to peers in different circumstances."
-categories: ["Identity", "Immigration", "Professional Development", "Culture"]
+categories: ["Interviews", "Featured"]
+image: "/assets/blog-define-success-1.webp"
 ---
 
 *This is the final part of my interview with Jilly Traganou. To view her background story and the first two parts, check [Does Our English Accent Matter?](/blog/does-our-english-accent-matter) and [The Personal Boundaries In America](/blog/the-personal-boundaries-in-america).*
@@ -13,6 +14,8 @@ categories: ["Identity", "Immigration", "Professional Development", "Culture"]
 **J:** There are these coming-of-age novels. I read some of them because my daughter was also reading them. For instance, this *Marriage Plot* by Greek American author Jeffrey Eugenides. He's also the author of *Middlesex* which is even more relevant to our conversation.
 
 *The Middlesex* is about someone who discovers, in the middle of life, that she is he. This novel was written many years before the transgender questions became visible. I see Middlesex as a word pun because it is both the name of the place where they live and in reference to a gender identity that is experienced as middle sex. It starts with a very straightforward story: Detroit, a Greek American family, all the diasporic history it carries, starting with the grandparents coming to the U.S. from Asia Minor. And then at some point like in the middle of the novel, we realize this girl is entering adolescence and something is different for her. It takes us through all this kind of struggling in realizing that she belongs to a different gender than she is raised. Then she leaves her parents' house, because the family continues living with "her" even though the doctor says differently. It's a really good novel because it really addresses identity in all its complexity, ethnic identity, gender identity, and in many ways also class identity. It is a truly intersectional novel.
+
+![Middlesex by Jeffrey Eugenides](/assets/blog-define-success-2.webp)
 
 **Q:** That's what I found good about novels. It can carry so many questions without giving any singular answer.
 
@@ -25,6 +28,12 @@ categories: ["Identity", "Immigration", "Professional Development", "Culture"]
 **Q:** Has the experience of being an immigrant affected your work or your study of the subject?
 
 **J:** Yeah, I worked for a long time on the subject of post-national identity in design, for example in this book, questioning nationality not only when someone adopts an external point of view, but also from the perspective of the nation itself. When I started looking at design for the Olympics, that was my starting question: how design expresses identity, but not in a way that it only reflects and perpetuates the established identity of a given host country. But rather how the Olympics become or may become opportunities for exploring and questioning identity, and attempt to redefine identity in a way that would take into account the others. Both the external others and the internal ones whose identities have been suppressed by the established national narratives. And at that moment in Greece, in 2004 with the Athens Olympics, there were many external others from those who wanted to invest in Greece to those who came as immigrants. But through my research I also discovered that there were many internal others too. Groups with different religions, or small ethnic minorities who were not even allowed to speak their own languages, etc. Identities that contradicted the idea that we, modern Greeks, come from the ancient Greeks and are a homogenous group.
+
+![Christmas terracotta](/assets/blog-define-success-3.webp)
+
+![Social history of disability](/assets/blog-define-success-4.webp)
+
+![Vancouver Olympics](/assets/blog-define-success-5.webp)
 
 **Q:** How do you feel about the idea that modern Greeks come from the ancient Greeks?
 
@@ -41,6 +50,8 @@ categories: ["Identity", "Immigration", "Professional Development", "Culture"]
 **Q:** Really?
 
 **J:** Yeah, until perhaps the baby boomers there was evidence of social mobility in the U.S. and people could advance socially or make money even if they came from very poor areas or families. There were no class limits as in the old world, in Europe for instance. And there were many people who incarnated this kind of ideal. It was a reality for many, or at least a real possibility. But now this cannot easily happen anymore, there is very little social mobility, especially for men. I am not sure if there are any statistics about the social mobility of immigrants, vis-a-vis the status they had or they would have in their home countries, but from experience I see that things are very difficult for immigrants too, including cultural migrants.
+
+![People walking](/assets/blog-define-success-6.webp)
 
 So I am curious: how do you compare yourself with your US-born peers. Do you see that there are different opportunities between you, having been a foreign student in the US, and them? Do you see more opportunities for the majority of them after graduating?
 
@@ -67,5 +78,7 @@ You can't constantly think of what you haven't achieved. If you just reverse the
 **Q:** I just feel there is not enough agency to explore ourselves in some way.
 
 **J:** We must find ways to understand ourselves not only based on what we're good at and what our strengths are, resume-kind of standards, but some other criteria, that derive from our own values and desires, which others might not see or recognize. And when you see where you are in comparison to others, it might seem unimportant, but if you look at it from your own value system, you see things that can make you feel really happy, or of course regretful, things that nobody can see in your CV or facebook page.
+
+![Event](/assets/blog-define-success-7.webp)
 
 How can you stay true to yourself to your own process of becoming — which as you said, in the beginning, Adichie's heroine manages to do so well — despite all the changes, is the question.
