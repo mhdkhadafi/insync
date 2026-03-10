@@ -1,9 +1,65 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const featuredPosts = allPosts
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 4);
 ---
-<BaseLayout title="Home">
-  <div class="container" style="padding-top: 80px;">
-    <h1>IN SYNC</h1>
-    <p>With Creative Minds in Diaspora</p>
-  </div>
+
+<BaseLayout title="Home" description="IN SYNC — With Creative Minds in Diaspora">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__text">
+        <h1 class="hero__title">IN SYNC</h1>
+        <p class="hero__tagline">With Creative Minds in Diaspora</p>
+      </div>
+      <a href="/halfthesky" class="hero__cta">
+        <img src="/assets/hero.gif" alt="Check out interview series Half The Sky" class="hero__gif" />
+        <span class="hero__cta-label">Check out interview series Half The Sky →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Featured Stories -->
+  <section class="featured">
+    <div class="container">
+      <h2 class="featured__heading">Stories</h2>
+      <div class="featured__grid">
+        {featuredPosts.map(post => (
+          <BlogCard
+            title={post.data.title}
+            date={post.data.date}
+            author={post.data.author}
+            excerpt={post.data.excerpt}
+            slug={post.slug}
+            image={post.data.image}
+          />
+        ))}
+      </div>
+      <a href="/blog" class="featured__all-link">View all stories →</a>
+    </div>
+  </section>
+
 </BaseLayout>
+
+<style>
+  .hero { padding: 80px 0 60px; }
+  .hero__inner { display: flex; flex-direction: column; gap: 40px; }
+  .hero__title { font-family: var(--font-heading); font-size: var(--font-size-xxl); line-height: var(--line-height-heading); }
+  .hero__tagline { font-size: var(--font-size-lg); color: var(--color-text-light); margin-top: 8px; }
+  .hero__cta { display: inline-flex; flex-direction: column; gap: 12px; }
+  .hero__gif { max-width: 400px; }
+  .hero__cta-label { font-size: var(--font-size-sm); letter-spacing: 0.05em; }
+  .hero__cta:hover .hero__cta-label { text-decoration: underline; }
+
+  .featured { padding: 60px 0; }
+  .featured__heading { font-family: var(--font-heading); font-size: var(--font-size-xl); margin-bottom: 40px; }
+  .featured__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; }
+  .featured__all-link { display: inline-block; margin-top: 32px; font-size: var(--font-size-sm); letter-spacing: 0.05em; }
+  .featured__all-link:hover { text-decoration: underline; }
+</style>
