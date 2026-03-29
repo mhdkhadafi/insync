@@ -10,71 +10,143 @@ export async function getStaticPaths() {
 const { event } = Astro.props;
 const { Content } = await event.render();
 
+const today = new Date();
+const isUpcoming = event.data.date >= today;
+
 const dateStr = event.data.date.toLocaleDateString('en-US', {
   weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
 });
 const startTime = event.data.date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
 const endTime = event.data.endDate?.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-
-function toICSDate(d: Date): string {
-  return d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-}
-const icsContent = [
-  'BEGIN:VCALENDAR',
-  'VERSION:2.0',
-  'BEGIN:VEVENT',
-  `DTSTART:${toICSDate(event.data.date)}`,
-  event.data.endDate ? `DTEND:${toICSDate(event.data.endDate)}` : '',
-  `SUMMARY:${event.data.title}`,
-  event.data.location ? `LOCATION:${event.data.location}` : '',
-  'END:VEVENT',
-  'END:VCALENDAR',
-].filter(Boolean).join('\r\n');
-
-const icsDataUrl = `data:text/calendar;charset=utf-8,${encodeURIComponent(icsContent)}`;
-
-const googleCalUrl = new URL('https://www.google.com/calendar/render');
-googleCalUrl.searchParams.set('action', 'TEMPLATE');
-googleCalUrl.searchParams.set('text', event.data.title);
-googleCalUrl.searchParams.set('dates', `${toICSDate(event.data.date)}/${toICSDate(event.data.endDate ?? event.data.date)}`);
-if (event.data.location) googleCalUrl.searchParams.set('location', event.data.location);
 ---
 
-<BaseLayout title={event.data.title}>
-  <div class="container">
-    <article class="event-detail">
-      {event.data.image && <img src={event.data.image} alt={event.data.title} class="event-detail__image" />}
-      <header class="event-detail__header">
-        <span class="event-detail__category">{event.data.category}</span>
-        <h1 class="event-detail__title">{event.data.title}</h1>
-        <p class="event-detail__date">{dateStr}</p>
-        <p class="event-detail__time">{startTime}{endTime ? ` – ${endTime}` : ''}</p>
-        {event.data.location && <p class="event-detail__location">{event.data.location}</p>}
-        <div class="event-detail__cal-links">
-          <a href={googleCalUrl.toString()} target="_blank" rel="noopener noreferrer">Add to Google Calendar</a>
-          <a href={icsDataUrl} download={`${event.slug}.ics`}>Download ICS</a>
-        </div>
-      </header>
-      <div class="event-detail__content">
+<BaseLayout title={event.data.title} description={`${event.data.title} — IN SYNC Workshop`}>
+
+  <div class="event-header">
+    <div class="event-header-inner">
+      <span class="event-category">{event.data.category}</span>
+      <h1 class="event-title">{event.data.title}</h1>
+      <p class="event-date">{dateStr}</p>
+      <p class="event-time">{startTime}{endTime ? ` – ${endTime}` : ''}</p>
+      {event.data.location && <p class="event-location">{event.data.location}</p>}
+    </div>
+  </div>
+
+  <section class="event-body">
+    <div class="event-body-inner">
+
+      {event.data.image && (
+        <img src={event.data.image} alt={event.data.title} class="event-poster" />
+      )}
+
+      <div class="event-content">
         <Content />
       </div>
-      <a href="/events" class="event-detail__back">← Back to Events</a>
-    </article>
-  </div>
+
+      <div class="event-actions">
+        {isUpcoming && event.data.rsvpUrl && (
+          <a href={event.data.rsvpUrl} target="_blank" rel="noopener noreferrer" class="action-btn action-btn-solid">
+            Register
+          </a>
+        )}
+        <a href="/events" class="action-btn action-btn-outline">← Back to Events</a>
+      </div>
+
+    </div>
+  </section>
+
 </BaseLayout>
 
 <style>
-  .event-detail { max-width: 720px; padding: 80px 0; }
-  .event-detail__image { width: 100%; aspect-ratio: 3/2; object-fit: cover; margin-bottom: 32px; }
-  .event-detail__category { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-light); }
-  .event-detail__title { font-family: var(--font-heading); font-size: var(--font-size-xxl); line-height: var(--line-height-heading); margin: 12px 0 20px; }
-  .event-detail__date,
-  .event-detail__time,
-  .event-detail__location { font-size: var(--font-size-sm); color: var(--color-text-light); margin-bottom: 4px; }
-  .event-detail__cal-links { display: flex; gap: 16px; margin-top: 16px; margin-bottom: 40px; }
-  .event-detail__cal-links a { font-size: var(--font-size-sm); text-decoration: underline; }
-  .event-detail__content { line-height: var(--line-height-body); }
-  .event-detail__content p { margin-bottom: 20px; }
-  .event-detail__back { display: inline-block; margin-top: 48px; font-size: var(--font-size-sm); }
-  .event-detail__back:hover { text-decoration: underline; }
+  .event-header {
+    background: var(--color-dark);
+    padding: 80px 48px 56px;
+  }
+  .event-header-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .event-category {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--color-coral);
+    margin-bottom: 12px;
+  }
+  .event-title {
+    font-family: var(--font-serif);
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--color-cream);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .event-date,
+  .event-time,
+  .event-location {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: var(--color-wine);
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+  }
+
+  .event-body {
+    background: var(--color-dark);
+    padding: 0 48px 80px;
+  }
+  .event-body-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding-top: 40px;
+  }
+  .event-poster {
+    /* Natural portrait aspect ratio — no forced crop */
+    width: auto;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto 40px;
+  }
+  .event-content {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.75;
+    color: var(--color-cream);
+    margin-bottom: 48px;
+  }
+  .event-content :global(p) { margin-bottom: 20px; }
+  .event-content :global(a) { color: var(--color-coral); text-decoration: underline; }
+
+  .event-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .action-btn {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .action-btn:hover { opacity: 0.8; text-decoration: none; }
+  .action-btn-solid {
+    background: var(--color-coral);
+    color: var(--color-cream);
+  }
+  .action-btn-outline {
+    border: 1px solid rgba(255,255,255,0.3);
+    color: var(--color-cream);
+  }
+
+  @media (max-width: 768px) {
+    .event-header { padding: 48px 20px 40px; }
+    .event-title { font-size: 36px; }
+    .event-body { padding: 0 20px 64px; }
+  }
 </style>

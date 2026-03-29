@@ -1,35 +1,214 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import EventCard from '../../components/EventCard.astro';
 import { getCollection } from 'astro:content';
 
 const allEvents = await getCollection('events');
-const sortedEvents = allEvents.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const sorted = allEvents.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const today = new Date();
+const upcoming = sorted.filter(e => e.data.date >= today);
+const past = sorted.filter(e => e.data.date < today);
 ---
 
-<BaseLayout title="Events" description="IN SYNC Events — Workshops, forums, and gatherings for creative minds in diaspora">
-  <div class="container">
-    <section class="events-header">
-      <h1 class="events-header__title">Events</h1>
-    </section>
-    <div class="events-list">
-      {sortedEvents.map(event => (
-        <EventCard
-          title={event.data.title}
-          date={event.data.date}
-          endDate={event.data.endDate}
-          location={event.data.location}
-          category={event.data.category}
-          slug={event.slug}
-          image={event.data.image}
-        />
-      ))}
+<BaseLayout title="Events" description="IN SYNC Events — Writing workshops for creative minds in diaspora">
+
+  <div class="events-header">
+    <div class="events-header-inner">
+      <h1 class="events-heading">Events</h1>
     </div>
   </div>
+
+  <section class="events-body">
+    <div class="events-inner">
+
+      {upcoming.length > 0 && (
+        <div class="events-group">
+          <p class="group-label">Upcoming</p>
+          <div class="events-list">
+            {upcoming.map(event => {
+              const dateStr = event.data.date.toLocaleDateString('en-US', {
+                weekday: 'short', month: 'long', day: 'numeric', year: 'numeric'
+              });
+              return (
+                <div class="event-row">
+                  {event.data.image && (
+                    <a href={`/events/${event.slug}`} class="event-row-img-link">
+                      <img src={event.data.image} alt={event.data.title} class="event-row-img" />
+                    </a>
+                  )}
+                  <div class="event-row-info">
+                    <p class="event-row-date">{dateStr}</p>
+                    <h2 class="event-row-title">
+                      <a href={`/events/${event.slug}`}>{event.data.title}</a>
+                    </h2>
+                    {event.data.location && <p class="event-row-location">{event.data.location}</p>}
+                    <div class="event-row-btns">
+                      <a href={`/events/${event.slug}`} class="event-btn event-btn-outline">More Info</a>
+                      {event.data.rsvpUrl && (
+                        <a href={event.data.rsvpUrl} target="_blank" rel="noopener noreferrer" class="event-btn event-btn-solid">Register</a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {past.length > 0 && (
+        <div class="events-group">
+          <p class="group-label">Past</p>
+          <div class="events-list">
+            {past.map(event => {
+              const dateStr = event.data.date.toLocaleDateString('en-US', {
+                month: 'long', day: 'numeric', year: 'numeric'
+              });
+              return (
+                <div class="event-row">
+                  {event.data.image && (
+                    <a href={`/events/${event.slug}`} class="event-row-img-link">
+                      <img src={event.data.image} alt={event.data.title} class="event-row-img" />
+                    </a>
+                  )}
+                  <div class="event-row-info">
+                    <p class="event-row-date">{dateStr}</p>
+                    <h2 class="event-row-title">
+                      <a href={`/events/${event.slug}`}>{event.data.title}</a>
+                    </h2>
+                    {event.data.location && <p class="event-row-location">{event.data.location}</p>}
+                    <div class="event-row-btns">
+                      <a href={`/events/${event.slug}`} class="event-btn event-btn-outline">View Recap</a>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+    </div>
+  </section>
+
 </BaseLayout>
 
 <style>
-  .events-header { padding: 80px 0 40px; }
-  .events-header__title { font-family: var(--font-heading); font-size: var(--font-size-xxl); }
-  .events-list { padding-bottom: 80px; }
+  .events-header {
+    background: var(--color-dark);
+    padding: 80px 48px 56px;
+  }
+  .events-header-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  .events-heading {
+    font-family: var(--font-serif);
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--color-cream);
+  }
+
+  .events-body {
+    background: var(--color-dark);
+    min-height: 60vh;
+    padding: 0 48px 80px;
+  }
+  .events-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  .group-label {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--color-coral);
+    margin-bottom: 24px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .event-row {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    padding: 20px;
+    background: var(--color-dark-mid);
+    border: 1px solid rgba(255,255,255,0.07);
+    transition: border-color 0.2s;
+  }
+  .event-row:hover { border-color: var(--color-wine); }
+
+  .event-row-img-link { flex-shrink: 0; }
+  .event-row-img {
+    width: 160px;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    display: block;
+  }
+
+  .event-row-info { flex: 1; }
+  .event-row-date {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-coral);
+    margin-bottom: 8px;
+  }
+  .event-row-title {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--color-cream);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .event-row-title a { text-decoration: none; color: inherit; }
+  .event-row-title a:hover { text-decoration: underline; }
+  .event-row-location {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    color: var(--color-wine);
+    margin-bottom: 16px;
+  }
+  .event-row-btns {
+    display: flex;
+    gap: 12px;
+  }
+  .event-btn {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 9px 20px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .event-btn:hover { opacity: 0.8; text-decoration: none; }
+  .event-btn-outline {
+    border: 1px solid rgba(255,255,255,0.3);
+    color: var(--color-cream);
+  }
+  .event-btn-solid {
+    background: var(--color-coral);
+    color: var(--color-cream);
+  }
+
+  @media (max-width: 768px) {
+    .events-header { padding: 48px 20px 40px; }
+    .events-heading { font-size: 36px; }
+    .events-body { padding: 0 20px 64px; }
+    .event-row { flex-direction: column; gap: 16px; }
+    .event-row-img { width: 100%; aspect-ratio: 3/2; }
+  }
 </style>
