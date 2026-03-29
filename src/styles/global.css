@@ -1,93 +1,39 @@
-/* Proxima Nova — local font files */
-@font-face {
-  font-family: 'Proxima Nova';
-  src: url('/fonts/Proxima Nova Light.otf') format('opentype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Proxima Nova';
-  src: url('/fonts/Proxima Nova Light Italic.otf') format('opentype');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Proxima Nova';
-  src: url('/fonts/Proxima Nova Regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Proxima Nova';
-  src: url('/fonts/Proxima Nova Regular Italic.otf') format('opentype');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Proxima Nova';
-  src: url('/fonts/Proxima Nova Semibold.otf') format('opentype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Proxima Nova';
-  src: url('/fonts/Proxima Nova Semibold Italic.otf') format('opentype');
-  font-weight: 600;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Proxima Nova';
-  src: url('/fonts/Proxima Nova Bold.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Proxima Nova';
-  src: url('/fonts/Proxima Nova Bold Italic.otf') format('opentype');
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
+/* ===========================================
+   IN SYNC — Global Styles
+   =========================================== */
 
 :root {
-  --color-text: #222222;
-  --color-text-light: #666666;
-  --color-bg: #ffffff;
-  --color-overlay: rgba(0, 0, 0, 0.7);
-  --color-border: #e8e8e8;
-  --color-accent: #222222;
+  /* Color palette — Dark Wine + Coral */
+  --color-dark:       #2A0E18;
+  --color-dark-deep:  #170910;
+  --color-dark-mid:   #1e0812;
+  --color-wine:       #5c2234;
+  --color-coral:      #E8624A;
+  --color-cream:      #FAF6F1;
+  --color-off-white:  #F5EDE8;
+  --color-text:       #2A0E18;
+  --color-text-light: #5c2234;
+  --color-bg:         #FAF6F1;
+  --color-border:     rgba(255,255,255,0.07);
 
-  --font-heading: 'Proxima Nova', Helvetica, Arial, sans-serif;
-  --font-body: 'Proxima Nova', Helvetica, Arial, sans-serif;
-  --font-quote: 'Proxima Nova', Georgia, serif;
-  --font-size-base: 16px;
-  --font-size-sm: 14px;
-  --font-size-lg: 20px;
-  --font-size-xl: 28px;
-  --font-size-xxl: 40px;
-  --line-height-body: 1.7;
-  --line-height-heading: 1.2;
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans:  Helvetica, Arial, sans-serif;
 
-  --max-width: 1200px;
-  --gutter: 20px;
-  --nav-height: 60px;
+  /* Layout */
+  --max-width:  1200px;
+  --gutter:     20px;
+  --nav-height: 54px;
 }
 
 /* Reset */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: var(--font-size-base); }
+html { font-size: 16px; }
 body {
-  font-family: var(--font-body);
+  font-family: var(--font-sans);
   color: var(--color-text);
   background: var(--color-bg);
-  line-height: var(--line-height-body);
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
 }
 img { display: block; max-width: 100%; }
