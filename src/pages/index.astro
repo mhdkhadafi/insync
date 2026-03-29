@@ -1,125 +1,500 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import BlogCard from '../components/BlogCard.astro';
 import { getCollection } from 'astro:content';
 
-const allPosts = await getCollection('blog');
-const sortedPosts = allPosts
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-
-const allCategories = ['Videos', 'Interviews', 'Featured', 'Opinions', 'Collaborators'];
-
 const allEvents = await getCollection('events');
-const sortedEvents = allEvents.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+// Note: .getTime() used for TypeScript strict-mode compatibility (direct Date subtraction can error)
+// Note: descending sort + .find returns the furthest-future upcoming event, not the soonest.
+// With only 1 upcoming event at a time this is fine. If multiple are ever added,
+// switch to ascending sort (.sort((a,b) => a.data.date.getTime() - b.data.date.getTime()))
+// and remove the ?? sorted[0] fallback direction reversal.
+const sorted = allEvents.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const today = new Date();
+const featuredEvent = sorted.find(e => e.data.date >= today) ?? sorted[0];
+const isUpcoming = featuredEvent ? featuredEvent.data.date >= today : false;
+const pastEvents = sorted.filter(e => e.data.date < today && e.data.image);
+
+const heroDateStr = featuredEvent
+  ? featuredEvent.data.date.toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric' })
+  : '';
+const heroTimeStr = featuredEvent
+  ? featuredEvent.data.date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+  : '';
+const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category || '';
 ---
 
-<BaseLayout title="Home" description="IN SYNC — With Creative Minds in Diaspora">
+<BaseLayout title="Home" description="IN SYNC — Writing workshops for creative minds in diaspora">
 
-  <!-- Hero -->
+  <!-- 1. HERO -->
   <section class="hero">
-    <div class="container hero__inner">
-      <h1 class="hero__title">To explore the diaspora and cultural identities, and how we can live with a sense of authenticity.</h1>
-      <div class="hero__cta-wrap">
-        <p class="hero__cta-text">Check out interview series <a href="/halfthesky" class="hero__cta-link">Half Of Sky</a> on life that's NOT like this:</p>
-        <a href="/halfthesky" class="hero__cta">
-          <img src="/assets/hero.gif" alt="Check out interview series Half The Sky" class="hero__gif" />
+
+    <!-- Left: blurred poster + event card -->
+    <div class="hero-event">
+      {featuredEvent?.data.image && (
+        <div class="hero-bg" style={`background-image: url('${featuredEvent.data.image}')`}></div>
+      )}
+      <div class="hero-tint"></div>
+
+      <div class="hero-card">
+        <span class="hero-eyebrow">
+          {isUpcoming ? 'Upcoming Workshop' : 'Past Workshop'}
+        </span>
+        <h1 class="hero-title">{featuredEvent?.data.title}</h1>
+        <div class="hero-rule"></div>
+        {heroSubtitle && <p class="hero-series">{heroSubtitle}</p>}
+        <p class="hero-meta">{heroDateStr}</p>
+        {heroTimeStr && <p class="hero-meta">{heroTimeStr}</p>}
+        {featuredEvent?.data.location && (
+          <p class="hero-meta hero-location">{featuredEvent.data.location}</p>
+        )}
+        <div class="hero-btns">
+          {featuredEvent && (
+            <a href={`/events/${featuredEvent.slug}`} class="btn btn-outline">
+              {isUpcoming ? 'More Info' : 'View Recap'}
+            </a>
+          )}
+          {isUpcoming && featuredEvent?.data.rsvpUrl && (
+            <a href={featuredEvent.data.rsvpUrl} target="_blank" rel="noopener noreferrer" class="btn btn-solid">
+              Register
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: 2 workshop photos (hardcoded placeholders until real photos provided) -->
+    <div class="hero-photos">
+      <div class="hero-photo">
+        <img
+          src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=700&h=400&fit=crop&crop=faces,center"
+          alt="Workshop participants"
+          crossorigin="anonymous"
+        />
+        <span class="hero-photo-caption">Mar 2026</span>
+      </div>
+      <div class="hero-photo">
+        <img
+          src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=700&h=400&fit=crop&crop=faces,center"
+          alt="Writing session"
+          crossorigin="anonymous"
+        />
+        <span class="hero-photo-caption">Jan 2026</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. EVENT STRIP -->
+  {featuredEvent && (
+    <div class="event-strip">
+      <div class="strip-left">
+        <p class="strip-eyebrow">Next Workshop</p>
+        <p class="strip-title">{featuredEvent.data.title}</p>
+        <p class="strip-meta">
+          {heroDateStr}
+          {heroTimeStr && ` · ${heroTimeStr}`}
+          {featuredEvent.data.location && ` · ${featuredEvent.data.location}`}
+        </p>
+      </div>
+      {isUpcoming && featuredEvent.data.rsvpUrl && (
+        <a href={featuredEvent.data.rsvpUrl} target="_blank" rel="noopener noreferrer" class="strip-btn">
+          REGISTER →
         </a>
+      )}
+    </div>
+  )}
+
+  <!-- 3. INSIDE THE ROOM -->
+  <section class="photos-section">
+    <p class="eyebrow">Inside the Room</p>
+    <div class="photos-row">
+      <div class="photo-thumb">
+        <img src="https://images.unsplash.com/photo-1502781252888-9143ba7f074e?w=500&h=375&fit=crop" alt="Workshop" crossorigin="anonymous" />
+      </div>
+      <div class="photo-thumb">
+        <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=500&h=375&fit=crop" alt="Workshop" crossorigin="anonymous" />
+      </div>
+      <div class="photo-thumb">
+        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&h=375&fit=crop" alt="Workshop" crossorigin="anonymous" />
+      </div>
+      <div class="photo-thumb">
+        <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=500&h=375&fit=crop" alt="Workshop" crossorigin="anonymous" />
       </div>
     </div>
   </section>
 
-  <!-- Stories -->
-  <section class="stories">
-    <div class="container">
-      <h2 class="stories__heading">Stories In Your Own Voices</h2>
-
-      <nav class="category-filter" aria-label="Filter by category">
-        {allCategories.map(cat => (
-          <a href={`/blog/category/${cat}`} class="category-filter__link">{cat}</a>
-        ))}
-      </nav>
-
-      <div class="stories__grid">
-        {sortedPosts.map(post => (
-          <BlogCard
-            title={post.data.title}
-            date={post.data.date}
-            author={post.data.author}
-            excerpt={post.data.excerpt}
-            slug={post.slug}
-            image={post.data.image}
-            categories={post.data.categories}
-          />
-        ))}
-      </div>
-    </div>
+  <!-- 4. ABOUT QUOTE -->
+  <section class="about-section">
+    <div class="about-rule"></div>
+    <p class="about-quote">
+      A writing workshop for <strong>creative minds in diaspora</strong> —
+      to explore cultural identity, find your voice, and write toward authenticity.
+    </p>
+    <a href="/about" class="about-cta">Our Story →</a>
   </section>
 
-  <!-- Events -->
-  <section class="events">
-    <div class="container">
-      <h2 class="events__heading">Events</h2>
-      <div class="events__grid">
-        {sortedEvents.filter(e => e.data.image).map(event => {
-          const month = event.data.date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
-          const day = event.data.date.getDate();
-          const dateStr = event.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  <!-- 5. PAST WORKSHOPS -->
+  {pastEvents.length > 0 && (
+    <section class="past-section">
+      <p class="eyebrow">Past Workshops</p>
+      <div class="past-grid">
+        {pastEvents.map(event => {
+          const cardDate = event.data.date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
           return (
-            <div class="events__card">
-              <a href={`/events/${event.slug}`} class="events__image-link">
-                <img src={event.data.image} alt={event.data.title} class="events__image" />
-                <div class="events__badge">
-                  <span class="events__badge-month">{month}</span>
-                  <span class="events__badge-day">{day}</span>
-                </div>
-              </a>
-              <a href={`/events/${event.slug}`} class="events__title">{event.data.title}</a>
-              <span class="events__date">{dateStr}</span>
-            </div>
+            <a href={`/events/${event.slug}`} class="past-card">
+              <img src={event.data.image} alt={event.data.title} class="past-card-img" />
+              <div class="past-card-body">
+                <p class="past-card-name">{event.data.title}</p>
+                <p class="past-card-date">{cardDate}</p>
+                <span class="past-card-link">View recap →</span>
+              </div>
+            </a>
           );
         })}
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
 </BaseLayout>
 
 <style>
-  .hero { padding: 60px 0; }
-  .hero__inner { display: flex; flex-direction: column; gap: 48px; max-width: 800px; margin: 0 auto; padding: 0 var(--gutter); }
-  .hero__title { font-family: var(--font-heading); font-size: 36px; font-weight: 700; line-height: 1.3; }
-  .hero__cta-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; }
-  .hero__cta-text { font-size: var(--font-size-lg); text-align: center; }
-  .hero__cta-link { text-decoration: underline; }
-  .hero__cta { display: inline-block; }
-  .hero__gif { max-width: 700px; width: 100%; }
-
-  .stories { padding: 60px 0; }
-  .stories__heading { font-family: var(--font-heading); font-size: var(--font-size-xl); margin-bottom: 24px; text-align: center; }
-  .stories__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
-
-  .category-filter { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 48px; justify-content: center; }
-  .category-filter__link { font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-text-light); transition: color 0.2s; }
-  .category-filter__link:hover { color: var(--color-text); text-decoration: underline; }
-
-  @media (max-width: 768px) {
-    .stories__grid { grid-template-columns: 1fr; }
+  /* ── HERO ─────────────────────────────── */
+  .hero {
+    background: var(--color-dark);
+    display: flex;
+    min-height: 580px;
   }
 
-  .events { padding: 40px 0 80px; }
-  .events__heading { font-family: var(--font-heading); font-size: var(--font-size-xl); margin-bottom: 32px; text-align: center; }
-  .events__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
-  .events__card { display: flex; flex-direction: column; }
-  .events__image-link { position: relative; display: block; margin-bottom: 16px; }
-  .events__image { width: 100%; aspect-ratio: 3/2; object-fit: cover; }
-  .events__badge { position: absolute; top: 12px; right: 12px; background: var(--color-bg); padding: 6px 10px; text-align: center; line-height: 1.2; }
-  .events__badge-month { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; }
-  .events__badge-day { display: block; font-size: 20px; font-weight: 700; }
-  .events__title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-  .events__title:hover { text-decoration: underline; }
-  .events__date { font-size: var(--font-size-sm); color: var(--color-text-light); }
+  .hero-event {
+    flex: 0 0 58%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: top center;
+    filter: blur(10px) brightness(0.70);
+    transform: scale(1.12);
+  }
+  .hero-tint {
+    position: absolute;
+    inset: 0;
+    background: rgba(42, 14, 24, 0.45);
+  }
+  .hero-card {
+    position: relative;
+    z-index: 2;
+    background: rgba(23, 9, 16, 0.6);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-top: 2px solid var(--color-coral);
+    padding: 32px 28px;
+    width: 100%;
+    max-width: 380px;
+  }
+  .hero-eyebrow {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--color-coral);
+    margin-bottom: 12px;
+  }
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: 52px;
+    font-weight: 600;
+    color: var(--color-cream);
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+  .hero-rule {
+    width: 32px;
+    height: 1px;
+    background: var(--color-coral);
+    margin-bottom: 14px;
+  }
+  .hero-series {
+    font-family: var(--font-serif);
+    font-size: 14px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--color-wine);
+    margin-bottom: 10px;
+  }
+  .hero-meta {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    color: var(--color-wine);
+    margin-bottom: 4px;
+  }
+  .hero-location { margin-bottom: 28px; }
+  .hero-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .btn {
+    display: block;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .btn:hover { opacity: 0.8; text-decoration: none; }
+  .btn-outline {
+    border: 1px solid rgba(255,255,255,0.3);
+    color: var(--color-cream);
+  }
+  .btn-solid {
+    background: var(--color-coral);
+    color: var(--color-cream);
+  }
 
+  .hero-photos {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    background: var(--color-dark-deep);
+    padding: 3px;
+  }
+  .hero-photo {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+  }
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    filter: grayscale(20%) contrast(105%) brightness(0.85);
+  }
+  .hero-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(150deg, rgba(42,14,24,0.55) 0%, rgba(232,98,74,0.20) 100%);
+    pointer-events: none;
+  }
+  .hero-photo-caption {
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    font-family: var(--font-sans);
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: rgba(250,246,241,0.55);
+    z-index: 2;
+    text-transform: uppercase;
+  }
+
+  /* ── EVENT STRIP ──────────────────────── */
+  .event-strip {
+    background: var(--color-coral);
+    padding: 16px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .strip-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(250,246,241,0.65);
+    margin-bottom: 5px;
+  }
+  .strip-title {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-cream);
+  }
+  .strip-meta {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: rgba(250,246,241,0.75);
+    margin-top: 3px;
+  }
+  .strip-btn {
+    flex-shrink: 0;
+    border: 1px solid var(--color-cream);
+    color: var(--color-cream);
+    background: transparent;
+    padding: 10px 24px;
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .strip-btn:hover { opacity: 0.8; text-decoration: none; }
+
+  /* ── INSIDE THE ROOM ──────────────────── */
+  .photos-section {
+    background: var(--color-off-white);
+    padding: 64px 48px 48px;
+  }
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--color-coral);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .photos-row {
+    display: flex;
+    gap: 12px;
+  }
+  .photo-thumb {
+    flex: 1;
+    overflow: hidden;
+  }
+  .photo-thumb img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    filter: saturate(80%) contrast(105%);
+    transition: transform 0.5s ease;
+  }
+  .photo-thumb:hover img { transform: scale(1.04); }
+
+  /* ── ABOUT QUOTE ──────────────────────── */
+  .about-section {
+    background: var(--color-off-white);
+    padding: 0 48px 72px;
+  }
+  .about-rule {
+    width: 40px;
+    height: 2px;
+    background: var(--color-coral);
+    margin-bottom: 28px;
+  }
+  .about-quote {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.65;
+    color: var(--color-text);
+    max-width: 640px;
+  }
+  .about-quote strong {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--color-wine);
+  }
+  .about-cta {
+    display: inline-block;
+    margin-top: 24px;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--color-coral);
+    border-bottom: 1px solid var(--color-coral);
+    padding-bottom: 3px;
+    text-decoration: none;
+  }
+  .about-cta:hover { opacity: 0.8; text-decoration: none; }
+
+  /* ── PAST WORKSHOPS ───────────────────── */
+  .past-section {
+    background: var(--color-dark);
+    padding: 64px 48px;
+  }
+  .past-section .eyebrow { color: var(--color-coral); }
+  .past-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .past-card {
+    border: 1px solid rgba(255,255,255,0.07);
+    background: var(--color-dark-mid);
+    overflow: hidden;
+    display: block;
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+  .past-card:hover { border-color: var(--color-coral); text-decoration: none; }
+  .past-card-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    display: block;
+  }
+  .past-card-body {
+    padding: 14px 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .past-card-name {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-cream);
+    margin-bottom: 5px;
+  }
+  .past-card-date {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--color-coral);
+    text-transform: uppercase;
+  }
+  .past-card-link {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--color-wine);
+    margin-top: 8px;
+    display: block;
+  }
+
+  /* ── RESPONSIVE ──────────────────────── */
   @media (max-width: 768px) {
-    .events__grid { grid-template-columns: 1fr; }
+    .hero { flex-direction: column; min-height: unset; }
+    .hero-event {
+      flex: unset;
+      width: 100%;
+      min-height: 400px;
+      border-right: none;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .hero-photos { flex-direction: row; height: 260px; }
+    .hero-photo { flex: 1; }
+
+    .event-strip { flex-direction: column; align-items: flex-start; padding: 16px 20px; }
+
+    .photos-section { padding: 48px 20px 32px; }
+    .photos-row { flex-wrap: wrap; }
+    .photo-thumb { flex: 0 0 calc(50% - 6px); }
+
+    .about-section { padding: 0 20px 48px; }
+    .about-quote { font-size: 20px; }
+
+    .past-section { padding: 48px 20px; }
+    .past-grid { grid-template-columns: 1fr; }
   }
 </style>

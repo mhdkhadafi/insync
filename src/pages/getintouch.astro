@@ -4,16 +4,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xreypzoq';
 ---
 
-<BaseLayout title="Get In Touch" description="Reach out to IN SYNC — With Creative Minds in Diaspora">
-  <div class="container">
-    <section class="contact">
-      <h1 class="contact__title">Get In Touch</h1>
+<BaseLayout title="Contact" description="Get in touch with IN SYNC">
 
-      <form
-        action={FORMSPREE_ENDPOINT}
-        method="POST"
-        class="contact__form"
-      >
+  <div class="contact-header">
+    <div class="contact-header-inner">
+      <h1 class="contact-heading">Get In Touch</h1>
+    </div>
+  </div>
+
+  <section class="contact-body">
+    <div class="contact-inner">
+
+      <form action={FORMSPREE_ENDPOINT} method="POST" class="contact-form">
         <div class="form-group">
           <label for="first-name">First Name</label>
           <input type="text" id="first-name" name="first-name" required />
@@ -30,66 +32,134 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xreypzoq';
           <label for="message">Message</label>
           <textarea id="message" name="message" rows="6"></textarea>
         </div>
-        <button type="submit" class="contact__submit">Send</button>
+        <button type="submit" class="contact-submit">Send</button>
       </form>
 
-      <div class="contact__bio">
-        <div class="contact__bio-text">
-          <h2 class="contact__bio-title">Hi!</h2>
+      <div class="contact-bio">
+        <div class="contact-bio-text">
+          <h2 class="contact-bio-title">Hi!</h2>
           <p>Thanks for being interested in who's behind the scenes.</p>
           <p>I'm Qionglu, I'm feeding pigeons so maybe once a while they will bring my some messages...or you can email me, like we all do in this digital world. Don't hesitate to reach out If you'd like to be featured in the untitled.</p>
           <p>Enjoy the rest of your day</p>
         </div>
-        <div class="contact__bio-photo">
-          <img src="/assets/qionglu-portrait.jpg" alt="Qionglu" class="contact__portrait" />
+        <div class="contact-bio-photo">
+          <img src="/assets/qionglu-portrait.jpg" alt="Qionglu" class="contact-portrait" />
         </div>
       </div>
-    </section>
-  </div>
+
+    </div>
+  </section>
+
 </BaseLayout>
 
 <style>
-  .contact { padding: 80px 0; max-width: 780px; }
-  .contact__title { font-family: var(--font-heading); font-size: var(--font-size-xxl); margin-bottom: 32px; }
-  .contact__form { display: flex; flex-direction: column; gap: 24px; }
+  .contact-header {
+    background: var(--color-dark);
+    padding: 80px 48px 56px;
+  }
+  .contact-header-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  .contact-heading {
+    font-family: var(--font-serif);
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--color-cream);
+  }
+
+  .contact-body {
+    background: var(--color-dark);
+    padding: 0 48px 80px;
+  }
+  .contact-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding-top: 40px;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 64px;
+  }
   .form-group { display: flex; flex-direction: column; gap: 8px; }
-  .form-group label { font-size: var(--font-size-sm); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+  .form-group label {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-wine);
+  }
   .form-group input,
   .form-group textarea {
-    border: 1px solid var(--color-border);
-    padding: 12px 16px;
-    font-family: var(--font-body);
-    font-size: var(--font-size-base);
-    color: var(--color-text);
-    background: var(--color-bg);
+    border: none;
+    border-bottom: 1px solid var(--color-wine);
+    padding: 12px 0;
+    background: transparent;
+    font-family: var(--font-serif);
+    font-size: 16px;
+    color: var(--color-cream);
     width: 100%;
     transition: border-color 0.2s;
   }
   .form-group input:focus,
-  .form-group textarea:focus { outline: none; border-color: var(--color-text); }
-  .contact__submit {
-    background: var(--color-text);
-    color: var(--color-bg);
+  .form-group textarea:focus {
+    outline: none;
+    border-bottom-color: var(--color-coral);
+  }
+  .form-group textarea {
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 12px 16px;
+    resize: vertical;
+  }
+  .contact-submit {
+    align-self: flex-start;
+    background: var(--color-coral);
+    color: var(--color-cream);
     border: none;
     padding: 14px 32px;
-    font-family: var(--font-body);
-    font-size: var(--font-size-sm);
-    letter-spacing: 0.1em;
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     cursor: pointer;
-    align-self: flex-start;
     transition: opacity 0.2s;
   }
-  .contact__submit:hover { opacity: 0.75; }
-  .contact__bio { margin-top: 48px; padding-top: 48px; border-top: 1px solid var(--color-border); line-height: var(--line-height-body); display: flex; gap: 32px; }
-  .contact__bio-text { flex: 1; }
-  .contact__bio-title { font-family: var(--font-heading); font-size: var(--font-size-xl); margin-bottom: 16px; font-style: italic; }
-  .contact__bio-text p { margin-bottom: 16px; }
-  .contact__bio-photo { flex-shrink: 0; width: 280px; }
-  .contact__portrait { width: 100%; }
+  .contact-submit:hover { opacity: 0.8; }
+
+  .contact-bio {
+    padding-top: 48px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+  }
+  .contact-bio-text { flex: 1; }
+  .contact-bio-title {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--color-cream);
+    margin-bottom: 16px;
+  }
+  .contact-bio-text p {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    color: rgba(250,246,241,0.75);
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+  .contact-bio-photo { flex-shrink: 0; width: 280px; }
+  .contact-portrait { width: 100%; display: block; }
 
   @media (max-width: 768px) {
-    .contact__bio { flex-direction: column; }
-    .contact__bio-photo { width: 100%; }
+    .contact-header { padding: 48px 20px 40px; }
+    .contact-heading { font-size: 36px; }
+    .contact-body { padding: 0 20px 64px; }
+    .contact-bio { flex-direction: column; }
+    .contact-bio-photo { width: 100%; max-width: 320px; }
   }
 </style>

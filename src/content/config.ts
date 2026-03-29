@@ -21,6 +21,8 @@ const events = defineCollection({
     location: z.string().optional(),
     category: z.enum(['Workshop', 'Forum', 'Talk', 'Other']),
     image: z.string().optional(),
+    rsvpUrl: z.string().url().optional(),
+    series: z.string().optional(),
   }),
 });
 
