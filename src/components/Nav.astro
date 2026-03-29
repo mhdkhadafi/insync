@@ -1,81 +1,61 @@
 ---
-const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/halfthesky', label: 'Half The Sky' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/events', label: 'Events' },
-  { href: '/getintouch', label: 'Get In Touch' },
-];
-
 const currentPath = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/events' ? currentPath.startsWith('/events') :
+  currentPath === href;
 ---
 
-<header class="header">
-  <div class="header__brand">
-    <a href="/">
-      <img src="/assets/logo.png" alt="IN SYNC" class="header__logo" />
-    </a>
-    <p class="header__tagline">With Creative Minds in Diaspora</p>
-  </div>
-  <nav class="nav">
-    <ul class="nav__links">
-      {navLinks.map(link => (
-        <li>
-          <a
-            href={link.href}
-            class:list={['nav__link', { 'nav__link--active': currentPath === link.href }]}
-          >
-            {link.label}
-          </a>
-        </li>
-      ))}
-    </ul>
-  </nav>
-</header>
+<nav class="nav">
+  <a href="/" class="nav-logo">In Sync</a>
+  <ul class="nav-links">
+    <li><a href="/events" class:list={['nav-link', { active: isActive('/events') }]}>Events</a></li>
+    <li><a href="/about" class:list={['nav-link', { active: isActive('/about') }]}>About</a></li>
+    <li><a href="/getintouch" class:list={['nav-link', { active: isActive('/getintouch') }]}>Contact</a></li>
+  </ul>
+</nav>
 
 <style>
-  .header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 60px 20px 0;
-  }
-  .header__brand {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 32px;
-  }
-  .header__logo {
-    height: 80px;
-    width: auto;
-    margin-bottom: 12px;
-  }
-  .header__tagline {
-    font-size: var(--font-size-sm);
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--color-text-light);
-  }
   .nav {
-    margin-bottom: 20px;
-  }
-  .nav__links {
+    background: var(--color-dark);
+    padding: 0 48px;
+    height: var(--nav-height);
     display: flex;
-    list-style: none;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 5px;
+    color: var(--color-cream);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .nav-logo:hover { text-decoration: none; }
+  .nav-links {
+    display: flex;
     gap: 32px;
+    list-style: none;
   }
-  .nav__link {
-    font-size: var(--font-size-base);
-    color: var(--color-text);
-    transition: opacity 0.2s;
+  .nav-link {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-wine);
+    transition: color 0.2s;
   }
-  .nav__link:hover { opacity: 0.6; text-decoration: none; }
-  .nav__link--active { text-decoration: underline; }
+  .nav-link:hover { color: var(--color-cream); text-decoration: none; }
+  .nav-link.active { color: var(--color-coral); }
 
   @media (max-width: 768px) {
-    .header__logo { height: 50px; }
-    .nav__links { gap: 16px; flex-wrap: wrap; justify-content: center; }
-    .nav__link { font-size: var(--font-size-sm); }
+    .nav { padding: 0 20px; }
+    .nav-links { gap: 16px; }
+    .nav-link { font-size: 9px; }
   }
 </style>
