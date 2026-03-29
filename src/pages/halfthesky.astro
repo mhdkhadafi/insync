@@ -84,21 +84,78 @@ const episodes = [
 </BaseLayout>
 
 <style>
-  .hts-wrap { max-width: 780px; margin: 0 auto; padding: 0 var(--gutter); }
+  .hts-wrap { background: var(--color-dark); min-height: 100vh; }
 
-  .hts-hero { padding: 60px 0 48px; }
-  .hts-hero__title { font-family: var(--font-heading); font-size: 32px; font-weight: 700; margin-bottom: 24px; line-height: 1.3; }
-  .hts-hero__body { line-height: var(--line-height-body); margin-bottom: 20px; }
+  .hts-hero {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 80px 48px 48px;
+  }
+  .hts-hero__title {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--color-cream);
+    margin-bottom: 24px;
+    line-height: 1.3;
+  }
+  .hts-hero__body {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: rgba(250,246,241,0.8);
+    margin-bottom: 20px;
+  }
 
-  .episodes { display: flex; flex-direction: column; gap: 64px; padding-bottom: 80px; }
-  .episode__title { font-family: var(--font-heading); font-size: var(--font-size-xl); font-weight: 700; margin-bottom: 20px; }
+  .episodes {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 48px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+  }
+  .episode__title {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--color-cream);
+    margin-bottom: 20px;
+  }
   .episode__thumbnail { width: 100%; margin-bottom: 20px; }
   .episode__video { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
   .episode__video iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-  .closing { padding-bottom: 80px; text-align: center; }
-  .closing__gifs { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+  .closing {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 48px 80px;
+    text-align: center;
+  }
+  .closing__gifs {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
   .closing__gifs img { max-width: 360px; width: 100%; }
-  .closing__text { font-size: var(--font-size-lg); margin-bottom: 12px; }
-  .closing__cta { font-size: var(--font-size-lg); color: var(--color-text-light); }
+  .closing__text {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    color: var(--color-cream);
+    margin-bottom: 12px;
+  }
+  .closing__cta {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    color: var(--color-wine);
+  }
+
+  @media (max-width: 768px) {
+    .hts-hero { padding: 48px 20px 32px; }
+    .episodes { padding: 0 20px 64px; }
+    .closing { padding: 0 20px 64px; }
+  }
 </style>
