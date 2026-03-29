@@ -6,7 +6,7 @@ location: Jackson Heights, Queens
 series: Writing Workshop Series
 title: Write About NYC — The World's Borough
 category: Workshop
-image: /assets/mar-29-writing-workshop-v.3-.png
+image: /assets/mar-29-writing-workshop.png
 ---
 
 A writing workshop for creative minds in diaspora. Bring a pen, bring your stories, and find your voice in the borough that holds the world.
