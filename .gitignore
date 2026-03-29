@@ -28,3 +28,4 @@ pnpm-debug.log*
 
 # Tina CMS build output (no longer used — switched to Decap CMS)
 # public/admin/ is intentionally tracked (contains Decap CMS index.html + config.yml)
+.worktrees/
