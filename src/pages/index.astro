@@ -3,16 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const allEvents = await getCollection('events');
-// Note: .getTime() used for TypeScript strict-mode compatibility (direct Date subtraction can error)
-// Note: descending sort + .find returns the furthest-future upcoming event, not the soonest.
-// With only 1 upcoming event at a time this is fine. If multiple are ever added,
-// switch to ascending sort (.sort((a,b) => a.data.date.getTime() - b.data.date.getTime()))
-// and remove the ?? sorted[0] fallback direction reversal.
 const sorted = allEvents.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const today = new Date();
 const featuredEvent = sorted.find(e => e.data.date >= today) ?? sorted[0];
 const isUpcoming = featuredEvent ? featuredEvent.data.date >= today : false;
-const pastEvents = sorted.filter(e => e.data.date < today && e.data.image);
+const pastEvents = sorted.filter(e => e.data.date < today && e.data.image && e.data.series === 'Writing Workshop Series');
 
 const heroDateStr = featuredEvent
   ? featuredEvent.data.date.toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric' })
@@ -28,7 +23,6 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
   <!-- 1. HERO -->
   <section class="hero">
 
-    <!-- Left: blurred poster + event card -->
     <div class="hero-event">
       {featuredEvent?.data.image && (
         <div class="hero-bg" style={`background-image: url('${featuredEvent.data.image}')`}></div>
@@ -40,6 +34,9 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
           {isUpcoming ? 'Upcoming Workshop' : 'Past Workshop'}
         </span>
         <h1 class="hero-title">{featuredEvent?.data.title}</h1>
+        {featuredEvent?.data.tagline && (
+          <p class="hero-tagline">{featuredEvent.data.tagline}</p>
+        )}
         <div class="hero-rule"></div>
         {heroSubtitle && <p class="hero-series">{heroSubtitle}</p>}
         <p class="hero-meta">{heroDateStr}</p>
@@ -62,67 +59,27 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
       </div>
     </div>
 
-    <!-- Right: 2 workshop photos (hardcoded placeholders until real photos provided) -->
-    <div class="hero-photos">
-      <div class="hero-photo">
-        <img
-          src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=700&h=400&fit=crop&crop=faces,center"
-          alt="Workshop participants"
-          crossorigin="anonymous"
-        />
-        <span class="hero-photo-caption">Mar 2026</span>
-      </div>
-      <div class="hero-photo">
-        <img
-          src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=700&h=400&fit=crop&crop=faces,center"
-          alt="Writing session"
-          crossorigin="anonymous"
-        />
-        <span class="hero-photo-caption">Jan 2026</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- 2. EVENT STRIP -->
-  {featuredEvent && (
-    <div class="event-strip">
-      <div class="strip-left">
-        <p class="strip-eyebrow">Next Workshop</p>
-        <p class="strip-title">{featuredEvent.data.title}</p>
-        <p class="strip-meta">
-          {heroDateStr}
-          {heroTimeStr && ` · ${heroTimeStr}`}
-          {featuredEvent.data.location && ` · ${featuredEvent.data.location}`}
-        </p>
-      </div>
-      {isUpcoming && featuredEvent.data.rsvpUrl && (
-        <a href={featuredEvent.data.rsvpUrl} target="_blank" rel="noopener noreferrer" class="strip-btn">
-          REGISTER →
-        </a>
-      )}
-    </div>
-  )}
-
-  <!-- 3. INSIDE THE ROOM -->
-  <section class="photos-section">
-    <p class="eyebrow">Inside the Room</p>
-    <div class="photos-row">
-      <div class="photo-thumb">
-        <img src="https://images.unsplash.com/photo-1502781252888-9143ba7f074e?w=500&h=375&fit=crop" alt="Workshop" crossorigin="anonymous" />
-      </div>
-      <div class="photo-thumb">
-        <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=500&h=375&fit=crop" alt="Workshop" crossorigin="anonymous" />
-      </div>
-      <div class="photo-thumb">
-        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&h=375&fit=crop" alt="Workshop" crossorigin="anonymous" />
-      </div>
-      <div class="photo-thumb">
-        <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=500&h=375&fit=crop" alt="Workshop" crossorigin="anonymous" />
+    <!-- Right: who is this for -->
+    <div class="hero-messaging">
+      <p class="hero-msg-headline">For the writer who keeps saying <em>"maybe next week."</em></p>
+      <div class="hero-msg-items">
+        <div class="hero-msg-item">
+          <p class="hero-msg-title">Life is full. We carve out the hour.</p>
+          <p class="hero-msg-body">One workshop at a time. No prep, no pressure. Just show up and write.</p>
+        </div>
+        <div class="hero-msg-item">
+          <p class="hero-msg-title">Find your people in Queens.</p>
+          <p class="hero-msg-body">A room of writers who know what it means to carry more than one world.</p>
+        </div>
+        <div class="hero-msg-item">
+          <p class="hero-msg-title">Your voice, clearer than before.</p>
+          <p class="hero-msg-body">Workshops that cut through the noise so you can hear yourself again.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 4. ABOUT QUOTE -->
+  <!-- 3. ABOUT QUOTE -->
   <section class="about-section">
     <div class="about-rule"></div>
     <p class="about-quote">
@@ -132,29 +89,79 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
     <a href="/about" class="about-cta">Our Story →</a>
   </section>
 
-  <!-- 5. PAST WORKSHOPS -->
+  <!-- 4. PAST WORKSHOPS CAROUSEL -->
   {pastEvents.length > 0 && (
     <section class="past-section">
-      <p class="eyebrow">Past Workshops</p>
-      <div class="past-grid">
-        {pastEvents.map(event => {
-          const cardDate = event.data.date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-          return (
-            <a href={`/events/${event.slug}`} class="past-card">
-              <img src={event.data.image} alt={event.data.title} class="past-card-img" />
-              <div class="past-card-body">
-                <p class="past-card-name">{event.data.title}</p>
-                <p class="past-card-date">{cardDate}</p>
-                <span class="past-card-link">View recap →</span>
-              </div>
-            </a>
-          );
-        })}
+      <div class="past-header">
+        <p class="eyebrow">Past Workshops</p>
+        {pastEvents.length > 3 && (
+          <div class="carousel-controls">
+            <button class="carousel-btn" id="prev-btn" aria-label="Previous" disabled>←</button>
+            <button class="carousel-btn" id="next-btn" aria-label="Next">→</button>
+          </div>
+        )}
+      </div>
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="carousel-track">
+          {pastEvents.map(event => {
+            const cardDate = event.data.date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+            return (
+              <a href={`/events/${event.slug}`} class="past-card">
+                <img src={event.data.image} alt={event.data.title} class="past-card-img" />
+                <div class="past-card-body">
+                  <p class="past-card-name">{event.data.title}</p>
+                  <p class="past-card-date">{cardDate}</p>
+                  <span class="past-card-link">View recap →</span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
       </div>
     </section>
   )}
 
+  <!-- 5. QUOTES -->
+  <section class="quotes-section">
+    <div class="quote-card">
+      <span class="quote-mark">"</span>
+      <p class="quote-text">I didn't know my story was worth telling until I had a room to tell it in.</p>
+      <span class="quote-attr">— Workshop participant</span>
+    </div>
+    <div class="quote-divider"></div>
+    <div class="quote-card">
+      <span class="quote-mark">"</span>
+      <p class="quote-text">Writing about the 7 train felt like writing about every country at once.</p>
+      <span class="quote-attr">— Workshop participant</span>
+    </div>
+  </section>
+
 </BaseLayout>
+
+<script>
+  const track = document.getElementById('carousel-track') as HTMLElement | null;
+  const prevBtn = document.getElementById('prev-btn') as HTMLButtonElement | null;
+  const nextBtn = document.getElementById('next-btn') as HTMLButtonElement | null;
+  if (track && prevBtn && nextBtn) {
+    let current = 0;
+    const cards = track.querySelectorAll('.past-card');
+    const total = cards.length;
+    const visible = 3;
+    const gap = 16;
+
+    function render() {
+      const cardW = (track!.parentElement!.offsetWidth - gap * (visible - 1)) / visible;
+      track!.style.transform = `translateX(-${current * (cardW + gap)}px)`;
+      prevBtn!.disabled = current === 0;
+      nextBtn!.disabled = current >= total - visible;
+    }
+
+    prevBtn.addEventListener('click', () => { current--; render(); });
+    nextBtn.addEventListener('click', () => { current++; render(); });
+    window.addEventListener('resize', render);
+    render();
+  }
+</script>
 
 <style>
   /* ── HERO ─────────────────────────────── */
@@ -215,6 +222,14 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
     line-height: 1.05;
     margin-bottom: 16px;
   }
+  .hero-tagline {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--color-cream);
+    margin-bottom: 16px;
+    line-height: 1.45;
+  }
   .hero-rule {
     width: 32px;
     height: 1px;
@@ -226,13 +241,13 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
     font-size: 14px;
     font-weight: 300;
     font-style: italic;
-    color: var(--color-wine);
+    color: rgba(250,246,241,0.65);
     margin-bottom: 10px;
   }
   .hero-meta {
     font-family: var(--font-sans);
     font-size: 10px;
-    color: var(--color-wine);
+    color: rgba(250,246,241,0.65);
     margin-bottom: 4px;
   }
   .hero-location { margin-bottom: 28px; }
@@ -263,96 +278,55 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
     color: var(--color-cream);
   }
 
-  .hero-photos {
+  /* ── HERO MESSAGING (right panel) ───────── */
+  .hero-messaging {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    background: var(--color-dark-deep);
-    padding: 3px;
+    justify-content: center;
+    background: #3d1a26;
+    padding: 40px 36px;
+    border-left: 1px solid rgba(255,255,255,0.06);
   }
-  .hero-photo {
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-    min-height: 0;
+  .hero-msg-headline {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--color-cream);
+    line-height: 1.45;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
-  .hero-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    filter: grayscale(20%) contrast(105%) brightness(0.85);
+  .hero-msg-headline em {
+    font-style: italic;
+    color: var(--color-coral);
   }
-  .hero-photo::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(150deg, rgba(42,14,24,0.55) 0%, rgba(232,98,74,0.20) 100%);
-    pointer-events: none;
-  }
-  .hero-photo-caption {
-    position: absolute;
-    bottom: 10px;
-    left: 12px;
-    font-family: var(--font-sans);
-    font-size: 8px;
-    letter-spacing: 2px;
-    color: rgba(250,246,241,0.55);
-    z-index: 2;
-    text-transform: uppercase;
-  }
-
-  /* ── EVENT STRIP ──────────────────────── */
-  .event-strip {
-    background: var(--color-coral);
-    padding: 16px 48px;
+  .hero-msg-items {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
     gap: 24px;
   }
-  .strip-eyebrow {
-    font-family: var(--font-sans);
-    font-size: 8px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: rgba(250,246,241,0.65);
-    margin-bottom: 5px;
+  .hero-msg-item {
+    padding-left: 14px;
+    border-left: 2px solid var(--color-coral);
   }
-  .strip-title {
+  .hero-msg-title {
     font-family: var(--font-serif);
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 600;
     color: var(--color-cream);
+    margin-bottom: 4px;
+    line-height: 1.3;
   }
-  .strip-meta {
-    font-family: var(--font-sans);
-    font-size: 11px;
-    color: rgba(250,246,241,0.75);
-    margin-top: 3px;
+  .hero-msg-body {
+    font-family: var(--font-serif);
+    font-size: 14px;
+    color: rgba(250,246,241,0.8);
+    line-height: 1.6;
   }
-  .strip-btn {
-    flex-shrink: 0;
-    border: 1px solid var(--color-cream);
-    color: var(--color-cream);
-    background: transparent;
-    padding: 10px 24px;
-    font-family: var(--font-sans);
-    font-size: 9px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
-  .strip-btn:hover { opacity: 0.8; text-decoration: none; }
 
-  /* ── INSIDE THE ROOM ──────────────────── */
-  .photos-section {
-    background: var(--color-off-white);
-    padding: 64px 48px 48px;
-  }
+  /* ── ABOUT QUOTE ──────────────────────── */
   .eyebrow {
     font-family: var(--font-sans);
     font-size: 9px;
@@ -361,28 +335,9 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
     text-transform: uppercase;
     margin-bottom: 28px;
   }
-  .photos-row {
-    display: flex;
-    gap: 12px;
-  }
-  .photo-thumb {
-    flex: 1;
-    overflow: hidden;
-  }
-  .photo-thumb img {
-    width: 100%;
-    aspect-ratio: 4/3;
-    object-fit: cover;
-    display: block;
-    filter: saturate(80%) contrast(105%);
-    transition: transform 0.5s ease;
-  }
-  .photo-thumb:hover img { transform: scale(1.04); }
-
-  /* ── ABOUT QUOTE ──────────────────────── */
   .about-section {
     background: var(--color-off-white);
-    padding: 0 48px 72px;
+    padding: 64px 48px 72px;
   }
   .about-rule {
     width: 40px;
@@ -418,19 +373,50 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
   }
   .about-cta:hover { opacity: 0.8; text-decoration: none; }
 
-  /* ── PAST WORKSHOPS ───────────────────── */
+  /* ── PAST WORKSHOPS CAROUSEL ──────────── */
   .past-section {
     background: var(--color-dark);
     padding: 64px 48px;
   }
-  .past-section .eyebrow { color: var(--color-coral); }
-  .past-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+  .past-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+  }
+  .past-header .eyebrow { margin-bottom: 0; }
+  .carousel-controls {
+    display: flex;
+    gap: 8px;
+  }
+  .carousel-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--color-cream);
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: border-color 0.2s, opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .carousel-btn:hover:not(:disabled) { border-color: var(--color-coral); color: var(--color-coral); }
+  .carousel-btn:disabled { opacity: 0.25; cursor: default; }
+
+  .carousel-viewport {
+    overflow: hidden;
+    container-type: inline-size;
+  }
+  .carousel-track {
+    display: flex;
     gap: 16px;
-    margin-top: 32px;
+    transition: transform 0.35s ease;
   }
   .past-card {
+    flex-shrink: 0;
+    width: calc((100cqw - 32px) / 3);
     border: 1px solid rgba(255,255,255,0.07);
     background: var(--color-dark-mid);
     overflow: hidden;
@@ -467,9 +453,54 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
     font-family: var(--font-sans);
     font-size: 9px;
     letter-spacing: 1px;
-    color: var(--color-wine);
+    color: rgba(250,246,241,0.5);
     margin-top: 8px;
     display: block;
+  }
+
+  /* ── QUOTES SECTION ──────────────────── */
+  .quotes-section {
+    background: var(--color-off-white);
+    padding: 72px 48px;
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+  }
+  .quote-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 48px;
+  }
+  .quote-mark {
+    font-family: var(--font-serif);
+    font-size: 52px;
+    color: var(--color-coral);
+    opacity: 0.4;
+    line-height: 0.5;
+    margin-bottom: 20px;
+    display: block;
+  }
+  .quote-text {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 20px;
+    color: var(--color-dark);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .quote-attr {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--color-coral);
+    text-transform: uppercase;
+  }
+  .quote-divider {
+    width: 1px;
+    background: rgba(0,0,0,0.1);
+    flex-shrink: 0;
   }
 
   /* ── RESPONSIVE ──────────────────────── */
@@ -482,19 +513,18 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
       border-right: none;
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .hero-photos { flex-direction: row; height: 260px; }
-    .hero-photo { flex: 1; }
+    .hero-messaging { padding: 32px 20px; }
+    .hero-msg-headline { font-size: 17px; }
 
-    .event-strip { flex-direction: column; align-items: flex-start; padding: 16px 20px; }
-
-    .photos-section { padding: 48px 20px 32px; }
-    .photos-row { flex-wrap: wrap; }
-    .photo-thumb { flex: 0 0 calc(50% - 6px); }
-
-    .about-section { padding: 0 20px 48px; }
+    .about-section { padding: 48px 20px; }
     .about-quote { font-size: 20px; }
 
     .past-section { padding: 48px 20px; }
-    .past-grid { grid-template-columns: 1fr; }
+    .past-card { flex: 0 0 80vw; }
+
+    .quotes-section { flex-direction: column; padding: 48px 20px; gap: 40px; }
+    .quote-card { padding: 0; }
+    .quote-divider { width: 100%; height: 1px; }
+    .quote-text { font-size: 17px; }
   }
 </style>
