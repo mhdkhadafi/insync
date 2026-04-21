@@ -16,12 +16,14 @@ const events = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    tagline: z.string().optional(),
     date: z.coerce.date(),
     endDate: z.coerce.date().optional(),
     location: z.string().optional(),
     category: z.enum(['Workshop', 'Forum', 'Talk', 'Other']),
     image: z.string().optional(),
     rsvpUrl: z.string().url().optional(),
+    eventPageUrl: z.string().url().optional(),
     series: z.string().optional(),
   }),
 });

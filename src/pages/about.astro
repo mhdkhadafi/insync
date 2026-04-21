@@ -7,22 +7,61 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <div class="about-header">
     <div class="about-header-inner">
       <h1 class="about-heading">About IN SYNC</h1>
+      <p class="about-subheading">A writing workshop series for people who keep meaning to write.</p>
     </div>
   </div>
 
   <section class="about-body">
-    <div class="about-body-inner">
-      <div class="about-photo-col">
-        <img src="/assets/qionglu-portrait.jpg" alt="Qiong Lu" class="about-portrait" />
-      </div>
-      <div class="about-text-col">
+    <div class="about-inner">
+
+      <div class="about-block">
         <p class="about-p">
-          IN SYNC is a writing and community series for creative minds navigating diaspora. Founded by Qiong Lu, it brings together writers, artists, and thinkers to explore cultural identity, voice, and what it means to live authentically across worlds.
+          IN SYNC is a community writing series rooted in Jackson Heights, Queens. We bring together writers at all levels, who are navigating diaspora and cultural identities, carrying more than one culture or one language, and looking to grow more than one version of themselves. By joining us, you give yourself permission to write — no matter how many life priorities you have.
         </p>
         <p class="about-p">
-          Our writing workshops are spaces to write, share, and find each other — for people of all writing levels.
+          The workshops are led by Qionglu, a writer who's been hosting workshops for almost a decade. At IN SYNC, you might produce polished work, or you might not. Either is ok. The goal is to make writing feel possible again, and to build a community around the act of putting your experience on the page.
         </p>
       </div>
+
+      <div class="about-divider"></div>
+
+      <div class="about-block">
+        <h2 class="about-section-title">What to expect</h2>
+        <p class="about-p">
+          Every IN SYNC workshop is a mix of the following, in some combination depending on the theme:
+        </p>
+        <ul class="about-format-list">
+          <li class="about-format-item">
+            <span class="format-label">Discussion</span>
+            <span class="format-desc">We start by getting to know each other a bit. What are you reading and writing about? We also chat about the theme, a question, or an idea that connects to the writing.</span>
+          </li>
+          <li class="about-format-item">
+            <span class="format-label">Reading</span>
+            <span class="format-desc">Sometimes we read short pieces of writing — a few paragraphs or pages — to spark something.</span>
+          </li>
+          <li class="about-format-item">
+            <span class="format-label">Writing</span>
+            <span class="format-desc">Always available: guided time to write. Prompts are provided. No experience necessary.</span>
+          </li>
+          <li class="about-format-item">
+            <span class="format-label">Sharing</span>
+            <span class="format-desc">Reading aloud, if you choose. The room listens. No pressure, ever.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="about-divider"></div>
+
+      <div class="about-block">
+        <h2 class="about-section-title">Who it's for</h2>
+        <p class="about-p">
+          Anyone who wants to write but hasn't found the time, the reason, or the right room. Writers who are new to the page and writers who've been writing for years. People who grew up between languages. People who live in Queens and want to find their people.
+        </p>
+        <p class="about-p">
+          Check out the next workshop on the <a href="/events" class="about-link">events page</a>.
+        </p>
+      </div>
+
     </div>
   </section>
 
@@ -34,7 +73,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     padding: 80px 48px 56px;
   }
   .about-header-inner {
-    max-width: var(--max-width);
+    max-width: 760px;
     margin: 0 auto;
   }
   .about-heading {
@@ -43,36 +82,88 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     font-weight: 600;
     color: var(--color-cream);
     line-height: 1.1;
+    margin-bottom: 14px;
+  }
+  .about-subheading {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(250,246,241,0.88);
   }
 
   .about-body {
-    background: var(--color-off-white);
-    padding: 64px 48px 80px;
+    background: var(--color-cream);
+    padding: 64px 48px 96px;
   }
-  .about-body-inner {
-    max-width: var(--max-width);
+  .about-inner {
+    max-width: 760px;
     margin: 0 auto;
-    display: flex;
-    gap: 64px;
-    align-items: flex-start;
   }
-  .about-photo-col { flex: 0 0 320px; }
-  .about-portrait { width: 100%; display: block; }
-  .about-text-col { flex: 1; padding-top: 8px; }
-  .about-p {
+
+  .about-block {
+    padding: 48px 0;
+  }
+  .about-block:first-child { padding-top: 0; }
+
+  .about-divider {
+    height: 1px;
+    background: rgba(0,0,0,0.08);
+  }
+
+  .about-section-title {
     font-family: var(--font-serif);
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 1.75;
-    color: var(--color-text);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--color-coral);
     margin-bottom: 24px;
   }
+
+  .about-p {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: var(--color-text);
+    margin-bottom: 22px;
+  }
+  .about-p:last-child { margin-bottom: 0; }
+
+  .about-format-list {
+    list-style: none;
+    margin-top: 8px;
+  }
+  .about-format-item {
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+  }
+  .about-format-item:first-child { border-top: 1px solid rgba(0,0,0,0.07); }
+  .format-label {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--color-dark);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .format-desc {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    color: rgba(42,14,24,0.7);
+    line-height: 1.75;
+  }
+
+  .about-link {
+    color: var(--color-coral);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .about-link:hover { opacity: 0.8; }
 
   @media (max-width: 768px) {
     .about-header { padding: 48px 20px 40px; }
     .about-heading { font-size: 36px; }
-    .about-body { padding: 48px 20px 64px; }
-    .about-body-inner { flex-direction: column; gap: 32px; }
-    .about-photo-col { flex: unset; width: 100%; max-width: 320px; }
+    .about-body { padding: 40px 20px 72px; }
+    .about-format-item { grid-template-columns: 1fr; gap: 6px; }
   }
 </style>

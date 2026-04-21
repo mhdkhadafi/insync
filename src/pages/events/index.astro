@@ -109,7 +109,7 @@ const past = sorted.filter(e => e.data.date < today);
   }
 
   .events-body {
-    background: var(--color-dark);
+    background: var(--color-cream);
     min-height: 60vh;
     padding: 0 48px 80px;
   }
@@ -129,7 +129,7 @@ const past = sorted.filter(e => e.data.date < today);
     color: var(--color-coral);
     margin-bottom: 24px;
     padding-top: 32px;
-    border-top: 1px solid rgba(255,255,255,0.07);
+    border-top: 1px solid rgba(0,0,0,0.1);
   }
   .events-list {
     display: flex;
@@ -142,8 +142,8 @@ const past = sorted.filter(e => e.data.date < today);
     gap: 32px;
     align-items: flex-start;
     padding: 20px;
-    background: var(--color-dark-mid);
-    border: 1px solid rgba(255,255,255,0.07);
+    background: var(--color-off-white);
+    border: 1px solid rgba(0,0,0,0.08);
     transition: border-color 0.2s;
   }
   .event-row:hover { border-color: var(--color-wine); }
@@ -169,7 +169,7 @@ const past = sorted.filter(e => e.data.date < today);
     font-family: var(--font-serif);
     font-size: 24px;
     font-weight: 600;
-    color: var(--color-cream);
+    color: var(--color-dark);
     margin-bottom: 8px;
     line-height: 1.2;
   }
@@ -196,8 +196,8 @@ const past = sorted.filter(e => e.data.date < today);
   }
   .event-btn:hover { opacity: 0.8; text-decoration: none; }
   .event-btn-outline {
-    border: 1px solid rgba(255,255,255,0.3);
-    color: var(--color-cream);
+    border: 1px solid rgba(0,0,0,0.3);
+    color: var(--color-dark);
   }
   .event-btn-solid {
     background: var(--color-coral);

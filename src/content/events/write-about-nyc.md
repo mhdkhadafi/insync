@@ -1,10 +1,11 @@
 ---
-date: 2026-06-15T11:00:00
-endDate: 2026-06-15T13:00:00
+date: 2026-03-29T11:00:00-04:00
+endDate: 2026-03-29T13:00:00-04:00
 rsvpUrl: https://lu.ma/insync
-location: Jackson Heights, Queens
+eventPageUrl: https://theworldsboroughbookshop.com/event/2026-03-29/write-about-nyc
+location: The World's Borough Bookshop, Jackson Heights
 series: Writing Workshop Series
-title: Write About NYC — The World's Borough
+title: Write About New York City
 category: Workshop
 image: /assets/mar-29-writing-workshop.png
 ---

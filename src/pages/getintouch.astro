@@ -1,50 +1,38 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xreypzoq';
 ---
 
-<BaseLayout title="Contact" description="Get in touch with IN SYNC">
+<BaseLayout title="Get in Touch" description="Stay updated on IN SYNC workshops and events">
 
   <div class="contact-header">
     <div class="contact-header-inner">
-      <h1 class="contact-heading">Get In Touch</h1>
+      <h1 class="contact-heading">Stay in the loop</h1>
+      <p class="contact-subheading">Get updates on upcoming workshops and events.</p>
     </div>
   </div>
 
   <section class="contact-body">
     <div class="contact-inner">
 
-      <form action={FORMSPREE_ENDPOINT} method="POST" class="contact-form">
-        <div class="form-group">
-          <label for="first-name">First Name</label>
-          <input type="text" id="first-name" name="first-name" required />
-        </div>
-        <div class="form-group">
-          <label for="last-name">Last Name</label>
-          <input type="text" id="last-name" name="last-name" required />
-        </div>
-        <div class="form-group">
-          <label for="email">Email Address</label>
-          <input type="email" id="email" name="email" required />
-        </div>
-        <div class="form-group">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="6"></textarea>
-        </div>
-        <button type="submit" class="contact-submit">Send</button>
-      </form>
+      <div class="contact-block">
+        <p class="contact-p">
+          IN SYNC runs workshops throughout the year — usually at local small businesses in Jackson Heights. If you'd like to hear about new dates and themes before they fill up, get on the list.
+        </p>
+        <p class="contact-p contact-p--cta">
+          Just send an email with your name and I'll add you.
+        </p>
+        <a href="mailto:insyncnyc@gmail.com?subject=Add me to the IN SYNC newsletter" class="contact-cta">
+          Email me to get on the newsletter
+        </a>
+      </div>
 
-      <div class="contact-bio">
-        <div class="contact-bio-text">
-          <h2 class="contact-bio-title">Hi!</h2>
-          <p>Thanks for being interested in who's behind the scenes.</p>
-          <p>I'm Qionglu, I'm feeding pigeons so maybe once a while they will bring my some messages...or you can email me, like we all do in this digital world. Don't hesitate to reach out If you'd like to be featured in the untitled.</p>
-          <p>Enjoy the rest of your day</p>
-        </div>
-        <div class="contact-bio-photo">
-          <img src="/assets/qionglu-portrait.jpg" alt="Qionglu" class="contact-portrait" />
-        </div>
+      <div class="contact-divider"></div>
+
+      <div class="contact-block">
+        <h2 class="contact-section-title">Other questions?</h2>
+        <p class="contact-p">
+          Feel free to reach out at <a href="mailto:insyncnyc@gmail.com" class="contact-link">insyncnyc@gmail.com</a> — whether it's about a specific event, hosting a workshop, or just saying hi.
+        </p>
       </div>
 
     </div>
@@ -58,7 +46,7 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xreypzoq';
     padding: 80px 48px 56px;
   }
   .contact-header-inner {
-    max-width: var(--max-width);
+    max-width: 760px;
     margin: 0 auto;
   }
   .contact-heading {
@@ -66,100 +54,80 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xreypzoq';
     font-size: 48px;
     font-weight: 600;
     color: var(--color-cream);
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+  .contact-subheading {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(250,246,241,0.88);
   }
 
   .contact-body {
-    background: var(--color-dark);
-    padding: 0 48px 80px;
+    background: var(--color-cream);
+    padding: 64px 48px 96px;
   }
   .contact-inner {
-    max-width: 780px;
+    max-width: 760px;
     margin: 0 auto;
-    padding-top: 40px;
   }
 
-  .contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    margin-bottom: 64px;
+  .contact-block {
+    padding: 48px 0;
   }
-  .form-group { display: flex; flex-direction: column; gap: 8px; }
-  .form-group label {
-    font-family: var(--font-sans);
-    font-size: 9px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--color-wine);
+  .contact-block:first-child { padding-top: 0; }
+
+  .contact-divider {
+    height: 1px;
+    background: rgba(0,0,0,0.08);
   }
-  .form-group input,
-  .form-group textarea {
-    border: none;
-    border-bottom: 1px solid var(--color-wine);
-    padding: 12px 0;
-    background: transparent;
+
+  .contact-section-title {
     font-family: var(--font-serif);
-    font-size: 16px;
-    color: var(--color-cream);
-    width: 100%;
-    transition: border-color 0.2s;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--color-coral);
+    margin-bottom: 24px;
   }
-  .form-group input:focus,
-  .form-group textarea:focus {
-    outline: none;
-    border-bottom-color: var(--color-coral);
+
+  .contact-p {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: var(--color-text);
+    margin-bottom: 22px;
   }
-  .form-group textarea {
-    border: 1px solid rgba(255,255,255,0.12);
-    padding: 12px 16px;
-    resize: vertical;
-  }
-  .contact-submit {
-    align-self: flex-start;
+  .contact-p:last-child { margin-bottom: 0; }
+  .contact-p--cta { margin-bottom: 32px; }
+
+  .contact-cta {
+    display: inline-block;
     background: var(--color-coral);
     color: var(--color-cream);
-    border: none;
-    padding: 14px 32px;
     font-family: var(--font-sans);
-    font-size: 9px;
-    letter-spacing: 2px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
-    cursor: pointer;
+    text-decoration: none;
+    padding: 14px 28px;
     transition: opacity 0.2s;
   }
-  .contact-submit:hover { opacity: 0.8; }
+  .contact-cta:hover { opacity: 0.85; }
 
-  .contact-bio {
-    padding-top: 48px;
-    border-top: 1px solid rgba(255,255,255,0.07);
-    display: flex;
-    gap: 32px;
-    align-items: flex-start;
+  .contact-link {
+    color: var(--color-coral);
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
-  .contact-bio-text { flex: 1; }
-  .contact-bio-title {
-    font-family: var(--font-serif);
-    font-size: 26px;
-    font-weight: 600;
-    font-style: italic;
-    color: var(--color-cream);
-    margin-bottom: 16px;
-  }
-  .contact-bio-text p {
-    font-family: var(--font-serif);
-    font-size: 16px;
-    color: rgba(250,246,241,0.75);
-    line-height: 1.75;
-    margin-bottom: 16px;
-  }
-  .contact-bio-photo { flex-shrink: 0; width: 280px; }
-  .contact-portrait { width: 100%; display: block; }
+  .contact-link:hover { opacity: 0.8; }
 
   @media (max-width: 768px) {
     .contact-header { padding: 48px 20px 40px; }
     .contact-heading { font-size: 36px; }
-    .contact-body { padding: 0 20px 64px; }
-    .contact-bio { flex-direction: column; }
-    .contact-bio-photo { width: 100%; max-width: 320px; }
+    .contact-body { padding: 40px 20px 72px; }
   }
 </style>

@@ -49,6 +49,11 @@ const endTime = event.data.endDate?.toLocaleTimeString('en-US', { hour: 'numeric
             Register
           </a>
         )}
+        {event.data.eventPageUrl && (
+          <a href={event.data.eventPageUrl} target="_blank" rel="noopener noreferrer" class="action-btn action-btn-outline">
+            View Event Page
+          </a>
+        )}
         <a href="/events" class="action-btn action-btn-outline">← Back to Events</a>
       </div>
 
@@ -88,13 +93,13 @@ const endTime = event.data.endDate?.toLocaleTimeString('en-US', { hour: 'numeric
   .event-location {
     font-family: var(--font-sans);
     font-size: 11px;
-    color: var(--color-wine);
+    color: rgba(250,246,241,0.65);
     margin-bottom: 5px;
     letter-spacing: 1px;
   }
 
   .event-body {
-    background: var(--color-dark);
+    background: var(--color-cream);
     padding: 0 48px 80px;
   }
   .event-body-inner {
@@ -114,7 +119,7 @@ const endTime = event.data.endDate?.toLocaleTimeString('en-US', { hour: 'numeric
     font-size: 18px;
     font-weight: 400;
     line-height: 1.75;
-    color: var(--color-cream);
+    color: var(--color-dark);
     margin-bottom: 48px;
   }
   .event-content :global(p) { margin-bottom: 20px; }
@@ -140,8 +145,8 @@ const endTime = event.data.endDate?.toLocaleTimeString('en-US', { hour: 'numeric
     color: var(--color-cream);
   }
   .action-btn-outline {
-    border: 1px solid rgba(255,255,255,0.3);
-    color: var(--color-cream);
+    border: 1px solid rgba(0,0,0,0.3);
+    color: var(--color-dark);
   }
 
   @media (max-width: 768px) {
