@@ -16,8 +16,8 @@ const isUpcoming = event.data.date >= today;
 const dateStr = event.data.date.toLocaleDateString('en-US', {
   weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
 });
-const startTime = event.data.date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-const endTime = event.data.endDate?.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+const startTime = event.data.date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' });
+const endTime = event.data.endDate?.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' });
 ---
 
 <BaseLayout title={event.data.title} description={`${event.data.title} — IN SYNC Workshop`}>
