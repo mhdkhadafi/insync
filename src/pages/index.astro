@@ -13,7 +13,7 @@ const heroDateStr = featuredEvent
   ? featuredEvent.data.date.toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric' })
   : '';
 const heroTimeStr = featuredEvent
-  ? featuredEvent.data.date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+  ? featuredEvent.data.date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' })
   : '';
 const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category || '';
 ---
