@@ -9,6 +9,7 @@ const isActive = (href: string) =>
   <a href="/" class="nav-logo">In Sync</a>
   <ul class="nav-links">
     <li><a href="/events" class:list={['nav-link', { active: isActive('/events') }]}>Events</a></li>
+    <li><a href="/reading" class:list={['nav-link', { active: isActive('/reading') }]}>What We're Reading</a></li>
     <li><a href="/about" class:list={['nav-link', { active: isActive('/about') }]}>About</a></li>
     <li><a href="/getintouch" class:list={['nav-link', { active: isActive('/getintouch') }]}>Contact</a></li>
   </ul>

@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BookCard from '../../components/BookCard.astro';
+import { getCollection } from 'astro:content';
+
+const allBooks = await getCollection('books');
+const sortedBooks = allBooks.sort((a, b) => b.data.dateAdded.getTime() - a.data.dateAdded.getTime());
+---
+
+<BaseLayout title="What We're Reading" description="Books the IN SYNC community is reading right now">
+
+  <div class="reading-header">
+    <div class="reading-header-inner">
+      <h1 class="reading-heading">What We're Reading</h1>
+      <p class="reading-subhead">A running list of what our writers are picking up right now.</p>
+    </div>
+  </div>
+
+  <section class="reading-body">
+    <div class="reading-inner">
+      {sortedBooks.length > 0 ? (
+        <div class="reading-list">
+          {sortedBooks.map(book => (
+            <BookCard
+              title={book.data.title}
+              author={book.data.author}
+              image={book.data.image}
+              blurb={book.data.blurb}
+              goodreadsUrl={book.data.goodreadsUrl}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="reading-empty">No books yet — check back soon.</p>
+      )}
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .reading-header {
+    background: var(--color-dark);
+    padding: 80px 48px 56px;
+  }
+  .reading-header-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  .reading-heading {
+    font-family: var(--font-serif);
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--color-cream);
+    margin-bottom: 12px;
+  }
+  .reading-subhead {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(250,246,241,0.65);
+  }
+
+  .reading-body {
+    background: var(--color-dark);
+    min-height: 60vh;
+    padding: 48px 48px 80px;
+  }
+  .reading-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  .reading-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 40px;
+  }
+  .reading-empty {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-style: italic;
+    color: rgba(250,246,241,0.6);
+  }
+
+  @media (max-width: 768px) {
+    .reading-header { padding: 48px 20px 40px; }
+    .reading-heading { font-size: 36px; }
+    .reading-body { padding: 32px 20px 64px; }
+    .reading-list { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 24px; }
+  }
+</style>

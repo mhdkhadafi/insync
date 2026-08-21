@@ -1,0 +1,62 @@
+---
+interface Props {
+  title: string;
+  author: string;
+  image: string;
+  blurb?: string;
+  goodreadsUrl?: string;
+}
+const { title, author, image, blurb, goodreadsUrl } = Astro.props;
+---
+
+<article class="book-card">
+  <img src={image} alt={`${title} cover`} class="book-card__cover" />
+  <div class="book-card__body">
+    <h2 class="book-card__title">{title}</h2>
+    <p class="book-card__author">{author}</p>
+    {blurb && <p class="book-card__blurb">{blurb}</p>}
+    {goodreadsUrl && (
+      <a href={goodreadsUrl} target="_blank" rel="noopener noreferrer" class="book-card__link">View on Goodreads →</a>
+    )}
+  </div>
+</article>
+
+<style>
+  .book-card__cover {
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    margin-bottom: 16px;
+  }
+  .book-card__title {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--color-cream);
+    margin-bottom: 4px;
+  }
+  .book-card__author {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-coral);
+    margin-bottom: 10px;
+  }
+  .book-card__blurb {
+    font-family: var(--font-serif);
+    font-size: 14px;
+    color: rgba(250,246,241,0.7);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  .book-card__link {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-coral);
+  }
+  .book-card__link:hover { text-decoration: underline; }
+</style>

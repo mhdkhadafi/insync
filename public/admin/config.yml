@@ -38,3 +38,17 @@ collections:
         options: [Workshop, Forum, Talk, Other]
       - { label: Event Image, name: image, widget: image, required: false }
       - { label: Description, name: body, widget: markdown }
+
+  - name: books
+    label: What We're Reading
+    folder: src/content/books
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Author, name: author, widget: string }
+      - { label: Date Added, name: dateAdded, widget: datetime, format: YYYY-MM-DD }
+      - { label: Cover Image, name: image, widget: image }
+      - { label: Blurb, name: blurb, widget: text, required: false, hint: "A couple lines on what the book is about" }
+      - { label: Goodreads Link, name: goodreadsUrl, widget: string, required: false }

@@ -9,6 +9,9 @@ const featuredEvent = sorted.find(e => e.data.date >= today) ?? sorted[0];
 const isUpcoming = featuredEvent ? featuredEvent.data.date >= today : false;
 const pastEvents = sorted.filter(e => e.data.date < today && e.data.image && e.data.series === 'Writing Workshop Series');
 
+const allBooks = await getCollection('books');
+const sortedBooks = allBooks.sort((a, b) => b.data.dateAdded.getTime() - a.data.dateAdded.getTime());
+
 const heroDateStr = featuredEvent
   ? featuredEvent.data.date.toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric' })
   : '';
@@ -121,6 +124,31 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
     </section>
   )}
 
+  <!-- 4b. WHAT WE'RE READING CAROUSEL -->
+  {sortedBooks.length > 0 && (
+    <section class="reading-section">
+      <div class="reading-header-row">
+        <p class="eyebrow">What We're Reading</p>
+        {sortedBooks.length > 5 && (
+          <div class="carousel-controls">
+            <button class="carousel-btn" id="books-prev-btn" aria-label="Previous" disabled>←</button>
+            <button class="carousel-btn" id="books-next-btn" aria-label="Next">→</button>
+          </div>
+        )}
+      </div>
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="books-carousel-track">
+          {sortedBooks.map(book => (
+            <a href="/reading" class="book-cover-card" title={`${book.data.title} — ${book.data.author}`}>
+              <img src={book.data.image} alt={book.data.title} class="book-cover-img" />
+            </a>
+          ))}
+        </div>
+      </div>
+      <a href="/reading" class="reading-cta">See the full list →</a>
+    </section>
+  )}
+
   <!-- 5. QUOTES -->
   <section class="quotes-section">
     <div class="quote-card">
@@ -139,14 +167,14 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
 </BaseLayout>
 
 <script>
-  const track = document.getElementById('carousel-track') as HTMLElement | null;
-  const prevBtn = document.getElementById('prev-btn') as HTMLButtonElement | null;
-  const nextBtn = document.getElementById('next-btn') as HTMLButtonElement | null;
-  if (track && prevBtn && nextBtn) {
+  function initCarousel(trackId: string, prevId: string, nextId: string, visible: number) {
+    const track = document.getElementById(trackId) as HTMLElement | null;
+    const prevBtn = document.getElementById(prevId) as HTMLButtonElement | null;
+    const nextBtn = document.getElementById(nextId) as HTMLButtonElement | null;
+    if (!track || !prevBtn || !nextBtn) return;
+
     let current = 0;
-    const cards = track.querySelectorAll('.past-card');
-    const total = cards.length;
-    const visible = 3;
+    const total = track.children.length;
     const gap = 16;
 
     function render() {
@@ -161,6 +189,9 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
     window.addEventListener('resize', render);
     render();
   }
+
+  initCarousel('carousel-track', 'prev-btn', 'next-btn', 3);
+  initCarousel('books-carousel-track', 'books-prev-btn', 'books-next-btn', 5);
 </script>
 
 <style>
@@ -458,6 +489,45 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
     display: block;
   }
 
+  /* ── WHAT WE'RE READING CAROUSEL ─────── */
+  .reading-section {
+    background: var(--color-off-white);
+    padding: 64px 48px;
+  }
+  .reading-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+  }
+  .reading-header-row .eyebrow { margin-bottom: 0; }
+  .book-cover-card {
+    flex-shrink: 0;
+    width: calc((100cqw - 64px) / 5);
+    display: block;
+  }
+  .book-cover-img {
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    border: 1px solid rgba(0,0,0,0.08);
+    transition: opacity 0.2s;
+  }
+  .book-cover-card:hover .book-cover-img { opacity: 0.85; }
+  .reading-cta {
+    display: inline-block;
+    margin-top: 28px;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--color-coral);
+    border-bottom: 1px solid var(--color-coral);
+    padding-bottom: 3px;
+    text-decoration: none;
+  }
+  .reading-cta:hover { opacity: 0.8; text-decoration: none; }
+
   /* ── QUOTES SECTION ──────────────────── */
   .quotes-section {
     background: var(--color-off-white);
@@ -521,6 +591,9 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
 
     .past-section { padding: 48px 20px; }
     .past-card { flex: 0 0 80vw; }
+
+    .reading-section { padding: 48px 20px; }
+    .book-cover-card { width: calc((100cqw - 16px) / 2); }
 
     .quotes-section { flex-direction: column; padding: 48px 20px; gap: 40px; }
     .quote-card { padding: 0; }

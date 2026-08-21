@@ -28,4 +28,16 @@ const events = defineCollection({
   }),
 });
 
-export const collections = { blog, events };
+const books = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    author: z.string(),
+    dateAdded: z.coerce.date(),
+    image: z.string(),
+    blurb: z.string().optional(),
+    goodreadsUrl: z.string().url().optional(),
+  }),
+});
+
+export const collections = { blog, events, books };
