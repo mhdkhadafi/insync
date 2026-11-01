@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Thank You" description="Your book giveaway entry is in.">
+
+  <section class="ty">
+    <div class="ty-inner">
+      <h1 class="ty-heading">Thank you for sharing.</h1>
+      <p class="ty-p">Your entry is in. We'll draw a name on Monday, December 14, and let the winner know by email.</p>
+      <p class="ty-p">In the meantime, see what the rest of the community is reading.</p>
+      <div class="ty-btns">
+        <a href="/reading" class="ty-btn">What We're Reading</a>
+        <a href="/" class="ty-btn ty-btn--outline">Back to home</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .ty {
+    background: var(--color-dark);
+    min-height: 60vh;
+    padding: 120px 48px;
+  }
+  .ty-inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .ty-heading {
+    font-family: var(--font-serif);
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--color-cream);
+    margin-bottom: 20px;
+  }
+  .ty-p {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    line-height: 1.7;
+    color: rgba(250,246,241,0.85);
+    margin-bottom: 12px;
+  }
+  .ty-btns { display: flex; gap: 16px; margin-top: 32px; flex-wrap: wrap; }
+  .ty-btn {
+    display: inline-block;
+    background: var(--color-coral);
+    color: var(--color-cream);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 14px 28px;
+  }
+  .ty-btn--outline {
+    background: transparent;
+    border: 1px solid rgba(250,246,241,0.4);
+  }
+  @media (max-width: 768px) {
+    .ty { padding: 72px 20px; }
+    .ty-heading { font-size: 36px; }
+  }
+</style>

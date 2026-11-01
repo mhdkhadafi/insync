@@ -1,0 +1,335 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="End-of-Year Book Giveaway" description="Share a book you love for a chance to win Min Jin Lee's American Hagwon.">
+
+  <div class="gw-header">
+    <div class="gw-header-inner">
+      <p class="gw-eyebrow">Book Giveaway · Entries close Dec 12</p>
+      <h1 class="gw-heading">Our End-of-Year Book Giveaway</h1>
+      <p class="gw-subheading">The year's almost over, so let's have some fun with it.</p>
+    </div>
+  </div>
+
+  <section class="gw-body">
+    <div class="gw-inner">
+
+      <div class="gw-intro">
+        <img src="/assets/book-american-hagwon.jpg" alt="American Hagwon by Min Jin Lee" class="gw-cover" />
+        <div class="gw-copy">
+          <p>Tell us about a book you love. It can be one that stayed with you this year, one you keep pressing on friends, or one that surprised you. In 150 words or fewer, tell us why.</p>
+          <p>Write it by hand and upload a photo, or just type it below. Whatever feels easiest. You don't need to be a writer to do this. If you can say why a book mattered to you, you're in.</p>
+          <p>Everyone who shares goes into a drawing for a copy of <strong>Min Jin Lee's <em>American Hagwon</em></strong>. We'll draw a name on <strong>Monday, December 14</strong> and hand the book over in person in New York City (Jackson Heights folks, this one's for you, but anyone in the city is welcome).</p>
+          <p>We'll share recommendations on our <a href="/reading" class="gw-link">What We're Reading</a> page and on Instagram as they come in, so you'll get to see what the rest of the community is reading.</p>
+        </div>
+      </div>
+
+      <div class="gw-divider"></div>
+
+      <div id="gw-open">
+        <h2 class="gw-section-title">Share your book</h2>
+        <form name="book-giveaway" method="POST" action="/giveaway/thanks" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" class="gw-form">
+          <input type="hidden" name="form-name" value="book-giveaway" />
+          <p class="gw-hidden"><label>Don't fill this out: <input name="bot-field" /></label></p>
+
+          <div class="gw-row">
+            <label class="gw-field">
+              <span class="gw-label">Your name</span>
+              <input type="text" name="name" required />
+            </label>
+            <label class="gw-field">
+              <span class="gw-label">Email</span>
+              <input type="email" name="email" required />
+            </label>
+          </div>
+
+          <label class="gw-field">
+            <span class="gw-label">The book (title and author)</span>
+            <input type="text" name="book" required />
+          </label>
+
+          <label class="gw-field">
+            <span class="gw-label">Why you recommend it <span class="gw-hint">(150 words or fewer, or upload a handwritten note below)</span></span>
+            <textarea name="why" rows="7" id="gw-why"></textarea>
+            <span class="gw-count" id="gw-count">0 / 150 words</span>
+          </label>
+
+          <label class="gw-field">
+            <span class="gw-label">Photo of your handwritten note <span class="gw-hint">(optional)</span></span>
+            <input type="file" name="photo" accept="image/*" />
+          </label>
+
+          <label class="gw-field">
+            <span class="gw-label">Instagram handle <span class="gw-hint">(optional, so we can tag you)</span></span>
+            <input type="text" name="instagram" placeholder="@" />
+          </label>
+
+          <label class="gw-check">
+            <input type="checkbox" name="ok-to-share" value="yes" checked />
+            <span>It's OK to share my recommendation (with my first name) on the IN SYNC site and Instagram.</span>
+          </label>
+
+          <p class="gw-error" id="gw-error" hidden>Please write a few words or upload a photo of your note.</p>
+
+          <button type="submit" class="gw-submit">Enter the giveaway</button>
+        </form>
+
+        <p class="gw-alt">Prefer email? Send your recommendation (and photo, if you have one) to <a href="mailto:insyncnyc@gmail.com?subject=Book giveaway entry" class="gw-link">insyncnyc@gmail.com</a>.</p>
+      </div>
+
+      <div id="gw-closed" hidden>
+        <h2 class="gw-section-title">Entries are closed</h2>
+        <p class="gw-p">Thank you to everyone who shared a book. See what the community recommended on our <a href="/reading" class="gw-link">What We're Reading</a> page.</p>
+      </div>
+
+      <div class="gw-divider"></div>
+
+      <div class="gw-rules">
+        <h2 class="gw-rules-title">The fine print</h2>
+        <ul>
+          <li>One entry per person. Entries close Saturday, December 12, 2026 at 11:59 PM ET.</li>
+          <li>One winner is drawn at random on Monday, December 14 and contacted by email.</li>
+          <li>The book is handed over in person in New York City.</li>
+          <li>Free to enter. No purchase or event attendance needed.</li>
+          <li>Rather keep your recommendation private? Just uncheck the box above, or tell us in your email.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+</BaseLayout>
+
+<script>
+  // Entries close Sat Dec 12, 2026, 11:59 PM ET.
+  const closesAt = new Date('2026-12-12T23:59:59-05:00');
+  if (new Date() > closesAt) {
+    document.getElementById('gw-open')?.setAttribute('hidden', '');
+    document.getElementById('gw-closed')?.removeAttribute('hidden');
+  }
+
+  const why = document.getElementById('gw-why') as HTMLTextAreaElement | null;
+  const count = document.getElementById('gw-count');
+  const countWords = (s: string) => s.trim().split(/\s+/).filter(Boolean).length;
+  why?.addEventListener('input', () => {
+    const n = countWords(why.value);
+    if (count) {
+      count.textContent = `${n} / 150 words`;
+      count.classList.toggle('gw-count--over', n > 150);
+    }
+  });
+
+  const form = document.querySelector('form[name="book-giveaway"]') as HTMLFormElement | null;
+  form?.addEventListener('submit', (e) => {
+    const photo = form.querySelector('input[name="photo"]') as HTMLInputElement;
+    const words = why ? countWords(why.value) : 0;
+    const err = document.getElementById('gw-error');
+    if (words === 0 && !photo.files?.length) {
+      e.preventDefault();
+      if (err) { err.textContent = 'Please write a few words or upload a photo of your note.'; err.hidden = false; }
+    } else if (words > 150) {
+      e.preventDefault();
+      if (err) { err.textContent = 'Please keep it to 150 words or fewer.'; err.hidden = false; }
+    }
+  });
+</script>
+
+<style>
+  .gw-header {
+    background: var(--color-dark);
+    padding: 80px 48px 56px;
+  }
+  .gw-header-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .gw-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--color-coral);
+    margin-bottom: 16px;
+  }
+  .gw-heading {
+    font-family: var(--font-serif);
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--color-cream);
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+  .gw-subheading {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(250,246,241,0.88);
+  }
+
+  .gw-body {
+    background: var(--color-cream);
+    padding: 64px 48px 96px;
+  }
+  .gw-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .gw-intro {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+  }
+  .gw-cover {
+    width: 200px;
+    flex-shrink: 0;
+    box-shadow: 0 12px 32px rgba(42,14,24,0.18);
+  }
+  .gw-copy p,
+  .gw-p {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    line-height: 1.8;
+    color: var(--color-text);
+    margin-bottom: 20px;
+  }
+  .gw-copy p:last-child { margin-bottom: 0; }
+
+  .gw-divider {
+    height: 1px;
+    background: rgba(0,0,0,0.08);
+    margin: 56px 0;
+  }
+
+  .gw-section-title {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--color-coral);
+    margin-bottom: 28px;
+  }
+
+  .gw-form { display: flex; flex-direction: column; gap: 22px; }
+  .gw-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .gw-field { display: flex; flex-direction: column; gap: 8px; }
+  .gw-label {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-text-light);
+  }
+  .gw-hint {
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    opacity: 0.8;
+  }
+  .gw-field input[type="text"],
+  .gw-field input[type="email"],
+  .gw-field textarea {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    color: var(--color-text);
+    background: #fff;
+    border: 1px solid rgba(42,14,24,0.18);
+    padding: 12px 14px;
+    border-radius: 0;
+  }
+  .gw-field input:focus,
+  .gw-field textarea:focus {
+    outline: 2px solid var(--color-coral);
+    outline-offset: -1px;
+  }
+  .gw-field input[type="file"] {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--color-text);
+  }
+  .gw-count {
+    align-self: flex-end;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--color-text-light);
+  }
+  .gw-count--over { color: #b3261e; font-weight: 600; }
+
+  .gw-check {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+  .gw-check input { margin-top: 5px; accent-color: var(--color-coral); }
+
+  .gw-error {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: #b3261e;
+  }
+
+  .gw-submit {
+    align-self: flex-start;
+    background: var(--color-coral);
+    color: var(--color-cream);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: none;
+    padding: 16px 32px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .gw-submit:hover { opacity: 0.85; }
+
+  .gw-alt {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    font-style: italic;
+    color: var(--color-text-light);
+    margin-top: 28px;
+  }
+
+  .gw-link {
+    color: var(--color-coral);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .gw-link:hover { opacity: 0.8; }
+
+  .gw-rules-title {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-text-light);
+    margin-bottom: 16px;
+  }
+  .gw-rules ul {
+    padding-left: 20px;
+    font-family: var(--font-serif);
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--color-text-light);
+  }
+
+  .gw-hidden { display: none; }
+
+  @media (max-width: 768px) {
+    .gw-header { padding: 48px 20px 40px; }
+    .gw-heading { font-size: 36px; }
+    .gw-body { padding: 40px 20px 72px; }
+    .gw-intro { flex-direction: column; gap: 28px; }
+    .gw-cover { width: 160px; }
+    .gw-row { grid-template-columns: 1fr; }
+  }
+</style>

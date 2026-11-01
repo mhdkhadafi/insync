@@ -19,3 +19,5 @@ If this is your first time joining us, here's a bit more about what we do:
 Write With Your Community is a dedicated evening to help you put words on the page. Qionglu at IN SYNC hosts these pressure-free writing sessions in collaboration with local businesses like The Queensboro and The World's Borough Bookshop. We'll give you simple prompts as a place to start, plus fellow writers and an inviting room to write in.
 
 Come as you are. Settle in with dinner or a drink of your choice.
+
+<em>P.S. Our end-of-year book giveaway is open. <a href="/giveaway">Share a book you love</a> for a chance to win Min Jin Lee's</em> American Hagwon<em>.</em>

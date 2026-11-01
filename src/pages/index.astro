@@ -82,6 +82,22 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
     </div>
   </section>
 
+  <!-- 2. BOOK GIVEAWAY (hidden after the Dec 14 draw by the script below) -->
+  <section class="giveaway-section" id="giveaway-module">
+    <div class="giveaway-inner">
+      <a href="/giveaway" class="giveaway-cover-link">
+        <img src="/assets/book-american-hagwon.jpg" alt="American Hagwon by Min Jin Lee" class="giveaway-cover" />
+      </a>
+      <div class="giveaway-copy">
+        <p class="eyebrow">End-of-Year Book Giveaway</p>
+        <h2 class="giveaway-title">Share a book you love. Win <em>American Hagwon</em>.</h2>
+        <p class="giveaway-body">Tell us about a book that mattered to you in 150 words or fewer, typed or handwritten. Everyone who shares goes into a drawing for Min Jin Lee's new novel.</p>
+        <p class="giveaway-meta">Entries close Saturday, Dec 12 · Winner drawn Dec 14</p>
+        <a href="/giveaway" class="btn btn-solid giveaway-btn">Enter the giveaway</a>
+      </div>
+    </div>
+  </section>
+
   <!-- 3. ABOUT QUOTE -->
   <section class="about-section">
     <div class="about-rule"></div>
@@ -167,6 +183,11 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
 </BaseLayout>
 
 <script>
+  // Hide the giveaway module once the winner is drawn (Mon Dec 14, 2026, ET).
+  if (new Date() > new Date('2026-12-14T23:59:59-05:00')) {
+    document.getElementById('giveaway-module')?.remove();
+  }
+
   function initCarousel(trackId: string, prevId: string, nextId: string, visible: number) {
     const track = document.getElementById(trackId) as HTMLElement | null;
     const prevBtn = document.getElementById(prevId) as HTMLButtonElement | null;
@@ -490,6 +511,48 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
   }
 
   /* ── WHAT WE'RE READING CAROUSEL ─────── */
+  .giveaway-section {
+    background: var(--color-cream);
+    padding: 72px 48px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .giveaway-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    gap: 56px;
+    align-items: center;
+  }
+  .giveaway-cover-link { flex-shrink: 0; }
+  .giveaway-cover {
+    width: 200px;
+    display: block;
+    box-shadow: 0 12px 32px rgba(42,14,24,0.18);
+  }
+  .giveaway-title {
+    font-family: var(--font-serif);
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-text);
+    margin-bottom: 16px;
+  }
+  .giveaway-body {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    line-height: 1.7;
+    color: var(--color-text);
+    margin-bottom: 12px;
+  }
+  .giveaway-meta {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--color-text-light);
+    margin-bottom: 28px;
+  }
+  .giveaway-btn { display: inline-block; }
+
   .reading-section {
     background: var(--color-off-white);
     padding: 64px 48px;
@@ -593,6 +656,10 @@ const heroSubtitle = featuredEvent?.data.series || featuredEvent?.data.category 
     .past-card { flex: 0 0 80vw; }
 
     .reading-section { padding: 48px 20px; }
+    .giveaway-section { padding: 48px 20px; }
+    .giveaway-inner { flex-direction: column; align-items: flex-start; gap: 28px; }
+    .giveaway-cover { width: 150px; }
+    .giveaway-title { font-size: 30px; }
     .book-cover-card { width: calc((100cqw - 16px) / 2); }
 
     .quotes-section { flex-direction: column; padding: 48px 20px; gap: 40px; }
