@@ -1,5 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Email-only until Netlify form detection is enabled on the site's Netlify account
+// (owned by mhdkhadafi). Flip to true once the form is detected, then redeploy and test.
+const FORM_ENABLED = false;
+
+const mailSubject = 'Book giveaway entry';
+const mailBody = `Name:\nBook (title and author):\nWhy I recommend it (150 words or fewer, or attach a photo of your handwritten note):\n\nInstagram handle (optional):\nOK to share my recommendation (with my first name) on the IN SYNC site and Instagram? Yes / No\n`;
+const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
 ---
 
 <BaseLayout title="End-of-Year Book Giveaway" description="Share a book you love for a chance to win Min Jin Lee's American Hagwon.">
@@ -19,7 +27,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         <img src="/assets/book-american-hagwon.jpg" alt="American Hagwon by Min Jin Lee" class="gw-cover" />
         <div class="gw-copy">
           <p>Tell us about a book you love. It can be one that stayed with you this year, one you keep pressing on friends, or one that surprised you. In 150 words or fewer, tell us why.</p>
-          <p>Write it by hand and upload a photo, or just type it below. Whatever feels easiest. You don't need to be a writer to do this. If you can say why a book mattered to you, you're in.</p>
+          <p>{FORM_ENABLED ? 'Write it by hand and upload a photo, or just type it below.' : 'Write it by hand and send a photo, or just type it in an email.'} Whatever feels easiest. You don't need to be a writer to do this. If you can say why a book mattered to you, you're in.</p>
           <p>Everyone who shares goes into a drawing for a copy of <strong>Min Jin Lee's <em>American Hagwon</em></strong>. We'll draw a name on <strong>Monday, December 14</strong> and hand the book over in person in New York City (Jackson Heights folks, this one's for you, but anyone in the city is welcome).</p>
           <p>We'll share recommendations on our <a href="/reading" class="gw-link">What We're Reading</a> page and on Instagram as they come in, so you'll get to see what the rest of the community is reading.</p>
         </div>
@@ -29,6 +37,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
       <div id="gw-open">
         <h2 class="gw-section-title">Share your book</h2>
+        {!FORM_ENABLED && (
+          <div class="gw-email">
+            <p class="gw-p">Email your recommendation to <a href={mailto} class="gw-link">insyncnyc@gmail.com</a>. Include your name, the book, and why you love it, typed or as a photo of your handwritten note.</p>
+            <a href={mailto} class="gw-submit gw-submit--link">Email your entry</a>
+          </div>
+        )}
+        {FORM_ENABLED && (<>
         <form name="book-giveaway" method="POST" action="/giveaway/thanks" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" class="gw-form">
           <input type="hidden" name="form-name" value="book-giveaway" />
           <p class="gw-hidden"><label>Don't fill this out: <input name="bot-field" /></label></p>
@@ -75,7 +90,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <button type="submit" class="gw-submit">Enter the giveaway</button>
         </form>
 
-        <p class="gw-alt">Prefer email? Send your recommendation (and photo, if you have one) to <a href="mailto:insyncnyc@gmail.com?subject=Book giveaway entry" class="gw-link">insyncnyc@gmail.com</a>.</p>
+        <p class="gw-alt">Prefer email? Send your recommendation (and photo, if you have one) to <a href={mailto} class="gw-link">insyncnyc@gmail.com</a>.</p>
+        </>)}
       </div>
 
       <div id="gw-closed" hidden>
@@ -92,7 +108,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <li>One winner is drawn at random on Monday, December 14 and contacted by email.</li>
           <li>The book is handed over in person in New York City.</li>
           <li>Free to enter. No purchase or event attendance needed.</li>
-          <li>Rather keep your recommendation private? Just uncheck the box above, or tell us in your email.</li>
+          <li>Rather keep your recommendation private? {FORM_ENABLED ? 'Just uncheck the box above, or tell us in your email.' : 'Just say so in your email.'}</li>
         </ul>
       </div>
 
@@ -289,6 +305,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     transition: opacity 0.2s;
   }
   .gw-submit:hover { opacity: 0.85; }
+  .gw-submit--link { display: inline-block; text-decoration: none; margin-top: 8px; }
+  .gw-submit--link:hover { text-decoration: none; }
 
   .gw-alt {
     font-family: var(--font-serif);
