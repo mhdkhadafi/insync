@@ -1,9 +1,11 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-// Email-only until Netlify form detection is enabled on the site's Netlify account
-// (owned by mhdkhadafi). Flip to true once the form is detected, then redeploy and test.
-const FORM_ENABLED = false;
+// Entries are stored by a Google Apps Script web app on insyncnyc@gmail.com
+// (source: planning/giveaway/Code.gs). Paste its /exec URL here to turn the form on;
+// while empty, the page falls back to email-only entries.
+const GIVEAWAY_ENDPOINT = 'https://script.google.com/macros/s/AKfycbySv64YYHUTW0IE3EUvEIVeUiXNcv6durp7xwuyJiGmDtGHxLnkYbl6V2T5TL0-my4Elg/exec';
+const FORM_ENABLED = GIVEAWAY_ENDPOINT !== '';
 
 const mailSubject = 'Book giveaway entry';
 const mailBody = `Name:\nBook (title and author):\nWhy I recommend it (150 words or fewer, or attach a photo of your handwritten note):\n\nInstagram handle (optional):\nOK to share my recommendation (with my first name) on the IN SYNC site and Instagram? Yes / No\n`;
@@ -44,8 +46,7 @@ const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubj
           </div>
         )}
         {FORM_ENABLED && (<>
-        <form name="book-giveaway" method="POST" action="/giveaway/thanks" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" class="gw-form">
-          <input type="hidden" name="form-name" value="book-giveaway" />
+        <form name="book-giveaway" data-endpoint={GIVEAWAY_ENDPOINT} class="gw-form" novalidate>
           <p class="gw-hidden"><label>Don't fill this out: <input name="bot-field" /></label></p>
 
           <div class="gw-row">
@@ -87,7 +88,7 @@ const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubj
 
           <p class="gw-error" id="gw-error" hidden>Please write a few words or upload a photo of your note.</p>
 
-          <button type="submit" class="gw-submit">Enter the giveaway</button>
+          <button type="submit" class="gw-submit" id="gw-submit">Enter the giveaway</button>
         </form>
 
         <p class="gw-alt">Prefer email? Send your recommendation (and photo, if you have one) to <a href={mailto} class="gw-link">insyncnyc@gmail.com</a>.</p>
@@ -137,16 +138,71 @@ const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubj
   });
 
   const form = document.querySelector('form[name="book-giveaway"]') as HTMLFormElement | null;
-  form?.addEventListener('submit', (e) => {
-    const photo = form.querySelector('input[name="photo"]') as HTMLInputElement;
-    const words = why ? countWords(why.value) : 0;
-    const err = document.getElementById('gw-error');
-    if (words === 0 && !photo.files?.length) {
-      e.preventDefault();
-      if (err) { err.textContent = 'Please write a few words or upload a photo of your note.'; err.hidden = false; }
-    } else if (words > 150) {
-      e.preventDefault();
-      if (err) { err.textContent = 'Please keep it to 150 words or fewer.'; err.hidden = false; }
+  const err = document.getElementById('gw-error');
+  const submitBtn = document.getElementById('gw-submit') as HTMLButtonElement | null;
+  const showError = (msg: string) => { if (err) { err.textContent = msg; err.hidden = false; } };
+
+  // Shrink phone photos before upload so they send quickly and reliably.
+  const resizePhoto = (file: File): Promise<{ data: string; mimeType: string }> =>
+    new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        const max = 1600;
+        const scale = Math.min(1, max / Math.max(img.width, img.height));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+        canvas.getContext('2d')!.drawImage(img, 0, 0, canvas.width, canvas.height);
+        URL.revokeObjectURL(img.src);
+        resolve({ data: canvas.toDataURL('image/jpeg', 0.85).split(',')[1], mimeType: 'image/jpeg' });
+      };
+      img.onerror = () => reject(new Error('Could not read that photo.'));
+      img.src = URL.createObjectURL(file);
+    });
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (err) err.hidden = true;
+    const fd = new FormData(form);
+    const photoInput = form.querySelector('input[name="photo"]') as HTMLInputElement;
+    const photoFile = photoInput.files?.[0];
+    const words = countWords(String(fd.get('why') || ''));
+
+    if (!String(fd.get('name') || '').trim() || !String(fd.get('book') || '').trim()) {
+      return showError('Please add your name and the book.');
+    }
+    const email = String(fd.get('email') || '').trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return showError('Please add a valid email so we can reach you if you win.');
+    if (words === 0 && !photoFile) return showError('Please write a few words or upload a photo of your note.');
+    if (words > 150) return showError('Please keep it to 150 words or fewer.');
+
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
+    try {
+      const payload: Record<string, unknown> = {
+        name: fd.get('name'),
+        email,
+        book: fd.get('book'),
+        why: fd.get('why'),
+        instagram: fd.get('instagram'),
+        okToShare: fd.get('ok-to-share') === 'yes',
+        botField: fd.get('bot-field'),
+      };
+      if (photoFile) payload.photo = await resizePhoto(photoFile);
+
+      // text/plain avoids a CORS preflight, which Apps Script doesn't answer.
+      const res = await fetch(form.dataset.endpoint!, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload),
+      });
+      const out = await res.json();
+      if (!out.ok) throw new Error(out.error === 'closed' ? 'closed' : 'server');
+      window.location.href = '/giveaway/thanks';
+    } catch (ex) {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Enter the giveaway'; }
+      showError((ex as Error).message === 'closed'
+        ? 'Sorry, entries have closed.'
+        : 'Something went wrong sending your entry. Please try again, or email it to insyncnyc@gmail.com.');
     }
   });
 </script>
@@ -305,6 +361,7 @@ const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubj
     transition: opacity 0.2s;
   }
   .gw-submit:hover { opacity: 0.85; }
+  .gw-submit:disabled { opacity: 0.6; cursor: wait; }
   .gw-submit--link { display: inline-block; text-decoration: none; margin-top: 8px; }
   .gw-submit--link:hover { text-decoration: none; }
 
