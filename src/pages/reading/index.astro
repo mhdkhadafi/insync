@@ -16,6 +16,22 @@ const sortedBooks = allBooks.sort((a, b) => b.data.dateAdded.getTime() - a.data.
     </div>
   </div>
 
+  <!-- Giveaway highlight (removed by the script below after the Dec 14 draw) -->
+  <section class="rd-giveaway" id="rd-giveaway">
+    <div class="rd-giveaway-inner">
+      <a href="/giveaway" class="rd-giveaway-img-link">
+        <img src="/assets/giveaway-example-note.jpg" alt="A handwritten staff-pick note next to Everything I Never Told You by Celeste Ng" class="rd-giveaway-img" />
+      </a>
+      <div class="rd-giveaway-copy">
+        <p class="rd-giveaway-eyebrow">End-of-Year Book Giveaway</p>
+        <h2 class="rd-giveaway-title">Add your staff pick to this list.</h2>
+        <p class="rd-giveaway-body">Write a few sentences by hand on a book you love, snap a photo of your note with the book, and you're in the drawing for Min Jin Lee's <em>American Hagwon</em>. Your picks will show up here as they come in.</p>
+        <p class="rd-giveaway-meta">Entries close Sunday, Dec 13 · Winner drawn Dec 14</p>
+        <a href="/giveaway" class="rd-giveaway-btn">Enter the giveaway</a>
+      </div>
+    </div>
+  </section>
+
   <section class="reading-body">
     <div class="reading-inner">
       {sortedBooks.length > 0 ? (
@@ -37,6 +53,12 @@ const sortedBooks = allBooks.sort((a, b) => b.data.dateAdded.getTime() - a.data.
   </section>
 
 </BaseLayout>
+
+<script>
+  if (new Date() > new Date('2026-12-14T23:59:59-05:00')) {
+    document.getElementById('rd-giveaway')?.remove();
+  }
+</script>
 
 <style>
   .reading-header {
@@ -61,6 +83,68 @@ const sortedBooks = allBooks.sort((a, b) => b.data.dateAdded.getTime() - a.data.
     font-style: italic;
     color: rgba(250,246,241,0.65);
   }
+
+  .rd-giveaway {
+    background: var(--color-dark);
+    padding: 8px 48px 0;
+  }
+  .rd-giveaway-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    background: rgba(250,246,241,0.05);
+    border: 1px solid rgba(250,246,241,0.1);
+    padding: 32px;
+  }
+  .rd-giveaway-img-link { flex-shrink: 0; }
+  .rd-giveaway-img {
+    width: 150px;
+    display: block;
+  }
+  .rd-giveaway-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--color-coral);
+    margin-bottom: 10px;
+  }
+  .rd-giveaway-title {
+    font-family: var(--font-serif);
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--color-cream);
+    margin-bottom: 12px;
+  }
+  .rd-giveaway-body {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.7;
+    color: rgba(250,246,241,0.85);
+    margin-bottom: 10px;
+  }
+  .rd-giveaway-meta {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: rgba(250,246,241,0.6);
+    margin-bottom: 22px;
+  }
+  .rd-giveaway-btn {
+    display: inline-block;
+    background: var(--color-coral);
+    color: var(--color-cream);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 13px 26px;
+  }
+  .rd-giveaway-btn:hover { opacity: 0.85; text-decoration: none; }
 
   .reading-body {
     background: var(--color-dark);
@@ -87,6 +171,10 @@ const sortedBooks = allBooks.sort((a, b) => b.data.dateAdded.getTime() - a.data.
     .reading-header { padding: 48px 20px 40px; }
     .reading-heading { font-size: 36px; }
     .reading-body { padding: 32px 20px 64px; }
+    .rd-giveaway { padding: 8px 20px 0; }
+    .rd-giveaway-inner { flex-direction: column; align-items: flex-start; gap: 24px; padding: 24px; }
+    .rd-giveaway-img { width: 120px; }
+    .rd-giveaway-title { font-size: 26px; }
     .reading-list { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 24px; }
   }
 </style>
