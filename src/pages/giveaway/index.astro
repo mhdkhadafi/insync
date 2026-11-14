@@ -8,30 +8,39 @@ const GIVEAWAY_ENDPOINT = 'https://script.google.com/macros/s/AKfycbySv64YYHUTW0
 const FORM_ENABLED = GIVEAWAY_ENDPOINT !== '';
 
 const mailSubject = 'Book giveaway entry';
-const mailBody = `Name:\nBook (title and author):\nWhy I recommend it (150 words or fewer, or attach a photo of your handwritten note):\n\nInstagram handle (optional):\nOK to share my recommendation (with my first name) on the IN SYNC site and Instagram? Yes / No\n`;
+const mailBody = `Name:\nBook (title and author):\nInstagram handle (optional):\nOK to share my note (with my first name) on the IN SYNC site and Instagram? Yes / No\n\n(Attach a photo of your handwritten note with the book.)\n`;
 const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
 ---
 
-<BaseLayout title="End-of-Year Book Giveaway" description="Share a book you love for a chance to win Min Jin Lee's American Hagwon.">
+<BaseLayout title="End-of-Year Book Giveaway" description="Write a staff-pick note on a book you love for a chance to win Min Jin Lee's American Hagwon.">
 
   <div class="gw-header">
     <div class="gw-header-inner">
-      <p class="gw-eyebrow">Book Giveaway · Entries close Dec 12</p>
+      <p class="gw-eyebrow">Book Giveaway · Entries close Dec 13</p>
       <h1 class="gw-heading">Our End-of-Year Book Giveaway</h1>
-      <p class="gw-subheading">The year's almost over, so let's have some fun with it.</p>
+      <p class="gw-subheading">Share a book you love, in your own words.</p>
     </div>
   </div>
 
   <section class="gw-body">
     <div class="gw-inner">
 
-      <div class="gw-intro">
+      <div class="gw-copy">
+        <p>Writing is often something we do alone, but you can share part of your creative journey with the community. One day we'll get to the point of sharing drafts and building on each other's feedback. For now, let's start with something simple (and less scary): share a book you love, in your own words.</p>
+        <p>Think of the handwritten staff picks you see in a bookshop: a few sentences, tucked next to the book, on why someone loved it. Just like that.</p>
+      </div>
+
+      <figure class="gw-example">
+        <img src="/assets/giveaway-example-note.jpg" alt="A handwritten pink note propped next to Everything I Never Told You by Celeste Ng: 'A family spent much time together but didn't talk about many things. Immigrant parents drew life maps for their beloved children, only to find out later that their destinations were somewhere else. A captivating page turner, which my friend correctly warned: NOT a beach read. Unless you like to mix tears with piña colada.'" />
+        <figcaption>My note on Celeste Ng's <em>Everything I Never Told You</em>.</figcaption>
+      </figure>
+
+      <div class="gw-prize">
         <img src="/assets/book-american-hagwon.jpg" alt="American Hagwon by Min Jin Lee" class="gw-cover" />
         <div class="gw-copy">
-          <p>Tell us about a book you love. It can be one that stayed with you this year, one you keep pressing on friends, or one that surprised you. In 150 words or fewer, tell us why.</p>
-          <p>{FORM_ENABLED ? 'Write it by hand and upload a photo, or just type it below.' : 'Write it by hand and send a photo, or just type it in an email.'} Whatever feels easiest. You don't need to be a writer to do this. If you can say why a book mattered to you, you're in.</p>
-          <p>Everyone who shares goes into a drawing for a copy of <strong>Min Jin Lee's <em>American Hagwon</em></strong>. We'll draw a name on <strong>Monday, December 14</strong> and hand the book over in person in New York City (Jackson Heights folks, this one's for you, but anyone in the city is welcome).</p>
-          <p>We'll share recommendations on our <a href="/reading" class="gw-link">What We're Reading</a> page and on Instagram as they come in, so you'll get to see what the rest of the community is reading.</p>
+          <p>And let's make it fun. Write your note by hand, take a picture of it with the book, and submit it below. You'll be entered in a drawing for a copy of <strong><em>American Hagwon</em></strong>, the new novel by Min Jin Lee, the National Book Award finalist author of <em>Pachinko</em>, who grew up in Queens(!). You've probably heard about it already, but if not, <a href="https://www.youtube.com/watch?v=UW2Jt27B5H4" target="_blank" rel="noopener noreferrer" class="gw-link">this quick book chat</a> will give you a sense of what it's about.</p>
+          <p><strong>Good to know:</strong> entries are due by <strong>Sunday, December 13</strong>. We'll draw a name on Monday, December 14, and reach out to the winner to set up a handoff in Queens. It could be your holiday read!</p>
+          <p>If you check the box to let us share, we'll post your note on our <a href="/reading" class="gw-link">What We're Reading</a> page and on Instagram as entries come in, so you'll get to see what everyone else loved reading.</p>
         </div>
       </div>
 
@@ -41,7 +50,7 @@ const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubj
         <h2 class="gw-section-title">Share your book</h2>
         {!FORM_ENABLED && (
           <div class="gw-email">
-            <p class="gw-p">Email your recommendation to <a href={mailto} class="gw-link">insyncnyc@gmail.com</a>. Include your name, the book, and why you love it, typed or as a photo of your handwritten note.</p>
+            <p class="gw-p">Email a photo of your handwritten note with the book to <a href={mailto} class="gw-link">insyncnyc@gmail.com</a>, along with your name and the book's title.</p>
             <a href={mailto} class="gw-submit gw-submit--link">Email your entry</a>
           </div>
         )}
@@ -66,14 +75,8 @@ const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubj
           </label>
 
           <label class="gw-field">
-            <span class="gw-label">Why you recommend it <span class="gw-hint">(150 words or fewer, or upload a handwritten note below)</span></span>
-            <textarea name="why" rows="7" id="gw-why"></textarea>
-            <span class="gw-count" id="gw-count">0 / 150 words</span>
-          </label>
-
-          <label class="gw-field">
-            <span class="gw-label">Photo of your handwritten note <span class="gw-hint">(optional)</span></span>
-            <input type="file" name="photo" accept="image/*" />
+            <span class="gw-label">Photo of your note with the book</span>
+            <input type="file" name="photo" accept="image/*" required />
           </label>
 
           <label class="gw-field">
@@ -83,15 +86,15 @@ const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubj
 
           <label class="gw-check">
             <input type="checkbox" name="ok-to-share" value="yes" checked />
-            <span>It's OK to share my recommendation (with my first name) on the IN SYNC site and Instagram.</span>
+            <span>It's OK to share my note (with my first name) on the IN SYNC site and Instagram.</span>
           </label>
 
-          <p class="gw-error" id="gw-error" hidden>Please write a few words or upload a photo of your note.</p>
+          <p class="gw-error" id="gw-error" hidden></p>
 
           <button type="submit" class="gw-submit" id="gw-submit">Enter the giveaway</button>
         </form>
 
-        <p class="gw-alt">Prefer email? Send your recommendation (and photo, if you have one) to <a href={mailto} class="gw-link">insyncnyc@gmail.com</a>.</p>
+        <p class="gw-alt">Prefer email? Send your photo to <a href={mailto} class="gw-link">insyncnyc@gmail.com</a>.</p>
         </>)}
       </div>
 
@@ -105,11 +108,10 @@ const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubj
       <div class="gw-rules">
         <h2 class="gw-rules-title">The fine print</h2>
         <ul>
-          <li>One entry per person. Entries close Saturday, December 12, 2026 at 11:59 PM ET.</li>
-          <li>One winner is drawn at random on Monday, December 14 and contacted by email.</li>
-          <li>The book is handed over in person in New York City.</li>
+          <li>One entry per person. Entries close Sunday, December 13, 2026 at 11:59 PM ET.</li>
+          <li>One winner is drawn at random on Monday, December 14 and contacted by email to set up a handoff in Queens.</li>
           <li>Free to enter. No purchase or event attendance needed.</li>
-          <li>Rather keep your recommendation private? {FORM_ENABLED ? 'Just uncheck the box above, or tell us in your email.' : 'Just say so in your email.'}</li>
+          <li>Rather keep your note private? {FORM_ENABLED ? 'Just uncheck the box above.' : 'Just say so in your email.'}</li>
         </ul>
       </div>
 
@@ -119,23 +121,12 @@ const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubj
 </BaseLayout>
 
 <script>
-  // Entries close Sat Dec 12, 2026, 11:59 PM ET.
-  const closesAt = new Date('2026-12-12T23:59:59-05:00');
+  // Entries close Sun Dec 13, 2026, 11:59 PM ET.
+  const closesAt = new Date('2026-12-13T23:59:59-05:00');
   if (new Date() > closesAt) {
     document.getElementById('gw-open')?.setAttribute('hidden', '');
     document.getElementById('gw-closed')?.removeAttribute('hidden');
   }
-
-  const why = document.getElementById('gw-why') as HTMLTextAreaElement | null;
-  const count = document.getElementById('gw-count');
-  const countWords = (s: string) => s.trim().split(/\s+/).filter(Boolean).length;
-  why?.addEventListener('input', () => {
-    const n = countWords(why.value);
-    if (count) {
-      count.textContent = `${n} / 150 words`;
-      count.classList.toggle('gw-count--over', n > 150);
-    }
-  });
 
   const form = document.querySelector('form[name="book-giveaway"]') as HTMLFormElement | null;
   const err = document.getElementById('gw-error');
@@ -156,7 +147,7 @@ const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubj
         URL.revokeObjectURL(img.src);
         resolve({ data: canvas.toDataURL('image/jpeg', 0.85).split(',')[1], mimeType: 'image/jpeg' });
       };
-      img.onerror = () => reject(new Error('Could not read that photo.'));
+      img.onerror = () => reject(new Error('photo'));
       img.src = URL.createObjectURL(file);
     });
 
@@ -164,31 +155,26 @@ const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubj
     e.preventDefault();
     if (err) err.hidden = true;
     const fd = new FormData(form);
-    const photoInput = form.querySelector('input[name="photo"]') as HTMLInputElement;
-    const photoFile = photoInput.files?.[0];
-    const words = countWords(String(fd.get('why') || ''));
+    const photoFile = (form.querySelector('input[name="photo"]') as HTMLInputElement).files?.[0];
 
     if (!String(fd.get('name') || '').trim() || !String(fd.get('book') || '').trim()) {
       return showError('Please add your name and the book.');
     }
     const email = String(fd.get('email') || '').trim();
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return showError('Please add a valid email so we can reach you if you win.');
-    if (words === 0 && !photoFile) return showError('Please write a few words or upload a photo of your note.');
-    if (words > 150) return showError('Please keep it to 150 words or fewer.');
+    if (!photoFile) return showError('Please add a photo of your handwritten note with the book.');
 
     if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
     try {
-      const payload: Record<string, unknown> = {
+      const payload = {
         name: fd.get('name'),
         email,
         book: fd.get('book'),
-        why: fd.get('why'),
         instagram: fd.get('instagram'),
         okToShare: fd.get('ok-to-share') === 'yes',
         botField: fd.get('bot-field'),
+        photo: await resizePhoto(photoFile),
       };
-      if (photoFile) payload.photo = await resizePhoto(photoFile);
-
       // text/plain avoids a CORS preflight, which Apps Script doesn't answer.
       const res = await fetch(form.dataset.endpoint!, {
         method: 'POST',
@@ -200,8 +186,9 @@ const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubj
       window.location.href = '/giveaway/thanks';
     } catch (ex) {
       if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Enter the giveaway'; }
-      showError((ex as Error).message === 'closed'
-        ? 'Sorry, entries have closed.'
+      const m = (ex as Error).message;
+      showError(m === 'closed' ? 'Sorry, entries have closed.'
+        : m === 'photo' ? "We couldn't read that photo. Please try a JPG or PNG, or email it to insyncnyc@gmail.com."
         : 'Something went wrong sending your entry. Please try again, or email it to insyncnyc@gmail.com.');
     }
   });
@@ -249,11 +236,29 @@ const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubj
     margin: 0 auto;
   }
 
-  .gw-intro {
+  .gw-prize {
     display: flex;
     gap: 40px;
     align-items: flex-start;
   }
+  .gw-example {
+    margin: 12px auto 48px;
+    max-width: 420px;
+  }
+  .gw-example img {
+    width: 100%;
+    display: block;
+    box-shadow: 0 12px 32px rgba(42,14,24,0.15);
+  }
+  .gw-example figcaption {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-style: italic;
+    color: var(--color-text-light);
+    text-align: center;
+    margin-top: 14px;
+  }
+  .gw-copy + .gw-example { margin-top: 8px; }
   .gw-cover {
     width: 200px;
     flex-shrink: 0;
@@ -321,13 +326,6 @@ const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubj
     font-size: 14px;
     color: var(--color-text);
   }
-  .gw-count {
-    align-self: flex-end;
-    font-family: var(--font-sans);
-    font-size: 12px;
-    color: var(--color-text-light);
-  }
-  .gw-count--over { color: #b3261e; font-weight: 600; }
 
   .gw-check {
     display: flex;
@@ -403,7 +401,8 @@ const mailto = `mailto:insyncnyc@gmail.com?subject=${encodeURIComponent(mailSubj
     .gw-header { padding: 48px 20px 40px; }
     .gw-heading { font-size: 36px; }
     .gw-body { padding: 40px 20px 72px; }
-    .gw-intro { flex-direction: column; gap: 28px; }
+    .gw-prize { flex-direction: column; gap: 28px; }
+    .gw-example { max-width: 100%; }
     .gw-cover { width: 160px; }
     .gw-row { grid-template-columns: 1fr; }
   }
